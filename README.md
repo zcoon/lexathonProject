@@ -27,15 +27,13 @@ Run `git checkout -b newBranchName`
 If you want to switch to another branch that already exists, you just won't include the "-b" from the previous command. So it will be `git checkout branchName`
 
 If you want to see which branch you are on,
-Run `git status`
-
-This will also show you all the files you've edited.
+Run `git status`. This will also show you all the files you've edited.
 
 Also, ALWAYS make sure you run `git pull` when you switch to a branch you haven't been working on and you are about to make changes. "Pulling" downloads the latest version of the code so that your branch is up to date.
 
-So the way this works is when you run git status, it'll tell you which branch you're on. If you're on master and you want to switch to another branch you'll Run git checkout otherBranch (where otherBranch is the name of the branch).
 
-When you want to merge code into master, you will actually be on master, and then you'll run `git merge branchIWantToMerge` (this will merge the code from branchIWantToMerge into master). With this you might need to resolve merge conflicts. I'm glad to handle this part because it can be tricky.
+
+When you want to merge code into master, you want to be on master and then run `git merge branchIWantToMerge` (this will merge the code from branchIWantToMerge into master). With this you might need to resolve merge conflicts. I'm glad to handle this part because it can be tricky.
 
 Good luck. Let me know if you have questions.
 
