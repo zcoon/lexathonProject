@@ -1,5 +1,10 @@
 # lexathonProject
-navigate to the folder where you want to keep your code (via terminal)
+
+First of all -- this site is helpful for Git basics (https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository) 
+
+Now for a quick crash course in Git using terminal...
+
+Navigate to the folder where you want to keep your code (via terminal)
 
 copy this url : https://github.com/zcoon/lexathonProject.git
 
