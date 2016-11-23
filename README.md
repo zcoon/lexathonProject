@@ -1,7 +1,10 @@
 # lexathonProject
 navigate to the folder where you want to keep your code (via terminal)
+
 copy this url : https://github.com/zcoon/lexathonProject.git
+
 run the command `git clone https://github.com/zcoon/lexathonProject.git`
+
 now you have the repo "pulled" into that directory.
 
 If you want to create your own branch to work on,
@@ -23,7 +26,7 @@ Also, ALWAYS make sure you run `git pull` when you switch to a branch you haven'
 
 So the way this works is when you run git status, it'll tell you which branch you're on. If you're on master and you want to switch to another branch you'll Run git checkout otherBranch (where otherBranch is the name of the branch).
 
-When you want to merge code into master, you will actually be on master, and then you'll run git merge branchIWantToMerge (this will merge the code from branchIWantToMerge into master). With this you might need to resolve merge conflicts.
+When you want to merge code into master, you will actually be on master, and then you'll run `git merge branchIWantToMerge` (this will merge the code from branchIWantToMerge into master). With this you might need to resolve merge conflicts. I'm glad to handle this part because it can be tricky.
 
 Good luck. Let me know if you have questions.
 
