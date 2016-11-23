@@ -1,10 +1,10 @@
-#Homework 4
+#Lexathon Timer
 #Zac Cooner
 #zmc130030
-#10/4/16
+#11/22/16
 
 .data
-prompt1: .asciiz "Welcome to the program!"
+prompt1: .asciiz "Welcome to the program!" 
 timeLeft: .asciiz "The time left is : "
 timeUp: .asciiz "The time is over!"
 timeAvailable: .word 60 #Make sure to reset this each game
