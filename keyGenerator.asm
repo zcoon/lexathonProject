@@ -23,18 +23,13 @@ vowelU: .byte 'u'
 .text
 
 main:
-	li $v0, 11        # syscall code 11 is for print character
-	lb $a0, vowelE	  # print E vowel for testing
-	syscall
-
 	li $v0, 4
 	la $a0, startingKeyGen #Prints "Starting keyGen"
 	syscall
 	
-	####
-	
 	li   $v0, 41       	# get a random int
 	syscall
+	
 	divu $t0, $a0, 5   	# mod it by 5 so we can generate a vowel with that vowel
 	mfhi $v0
 	move $s0, $v0 		# move the mod value to $s0
@@ -72,6 +67,8 @@ modValueZero:
 	la $a0, vowelA  # Get the address
 	sb $v1, ($a0)  # Get the value at that address
 	
+	jr $ra
+	
 modValueOne:
 	li $v0, 4
 	la $a0, inModValueOne
@@ -79,6 +76,8 @@ modValueOne:
 	
 	la $a0, vowelE  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
+	
+	jr $ra
 	
 modValueTwo:
 	li $v0, 4
@@ -88,6 +87,8 @@ modValueTwo:
 	la $a0, vowelI  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	
+	jr $ra
+	
 modValueThree:
 	li $v0, 4
 	la $a0, inModValueThree
@@ -95,6 +96,8 @@ modValueThree:
 	
 	la $a0, vowelO  # Get the address
 	lb $v1, 0($a0)  # Get the value at that address
+	
+	jr $ra
 	
 modValueFour:
 	li $v0, 4
@@ -104,6 +107,7 @@ modValueFour:
 	la $a0, vowelU  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	
+	jr $ra
 
 getVowel:
 	#a0 holds the mod value, which is 0, 1, 2, 3 or 4 to be mapped to a variable
