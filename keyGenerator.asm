@@ -31,11 +31,7 @@ main:
 	syscall
 	
 	divu $t0, $a0, 5   	# mod it by 5 so we can generate a vowel with that vowel
-	mfhi $v0
-	
-	#move $t1, $v0
-	#beq $t1, $zero, fixRemainder
-	
+	mfhi $v0		# Get the remainder value
 	addi $v0, $v0, 1	# add 1 to modValue to handle case where the div operation results in 0
 	move $s0, $v0 		# move the mod value to $s0
 	
@@ -70,7 +66,7 @@ modValueOne:
 	syscall
 	
 	la $a0, vowelA  # Get the address
-	sb $v1, ($a0)  # Get the value at that address
+	lb $v1, ($a0)  # Get the value at that address
 	
 	jr $ra
 	
