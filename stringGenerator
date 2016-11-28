@@ -1,0 +1,37 @@
+#String Generator
+#This will create an eight letter string that we will use for our border letters
+.data
+
+startingStringGen: .asciiz "\nStarting StringGen\n"
+goodbye: .asciiz "\n Terminating"
+resultsFromGetVowel: .asciiz "\nThe result from getVowel is: "
+
+## LETTERS ##
+letterA: .byte 'a'
+letterB: .byte 'b'
+letterC: .byte 'c'
+letterD: .byte 'd'
+letterE: .byte 'e'
+letterF: .byte 'f'
+letterG: .byte 'a'
+letterH: .byte 'a'
+letterI: .byte 'i'
+letterJ: .byte 'j'
+letterK: .byte 'k'
+letterL: .byte 'l'
+letterM: .byte 'm'
+letterN: .byte 'n'
+letterO: .byte 'o'
+letterP: .byte 'p'
+letterQ: .byte 'q'
+letterR: .byte 'r'
+letterS: .byte 's'
+letterT: .byte 't'
+letterU: .byte 'u'
+letterV: .byte 'v'
+letterW: .byte 'w'
+letterX: .byte 'x'
+letterY: .byte 'y'
+letterZ: .byte 'z'
+
+.text
