@@ -5,8 +5,9 @@
 startingStringGen: .asciiz "\nStarting StringGen\n"
 goodbye: .asciiz "\n Terminating"
 resultsFromGetVowel: .asciiz "\nThe result from getVowel is: "
-exitLoopStatement: .asciiz "Done with the loop"
+exitLoopStatement: .asciiz "Done with the loop -- Back in main"
 loopNumberStatement: .asciiz "This is loop number : "
+newLine: .asciiz "\n"
 
 ## LETTERS ##
 letterA: .byte 'a'
@@ -50,6 +51,9 @@ main:
 	la $a0, exitLoopStatement
 	syscall
 	
+	li $v0, 10
+	syscall
+	
 loop: 
     bgt $t0,7, exit # If $t0 is greater than 7, branch to exit
     addi $t0,$t0,1 # Add one to the value of $t0
@@ -61,7 +65,10 @@ loop:
     li $v0, 1
     syscall
     
-    add $v0,$t1, 3#
+    li $v0, 4
+    la $a0, newLine
+    syscall
+   
     j loop  
 
 exit:
