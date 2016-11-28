@@ -6,7 +6,8 @@ startingStringGen: .asciiz "\nStarting StringGen\n"
 goodbye: .asciiz "\n Terminating"
 resultsFromGetVowel: .asciiz "\nThe result from getVowel is: "
 exitLoopStatement: .asciiz "Done with the loop -- Back in main"
-loopNumberStatement: .asciiz "This is loop number : "
+loopNumberStatement: .asciiz "This is loop number: "
+randomNumberStatement: .asciiz " The random int is: "
 newLine: .asciiz "\n"
 
 ## LETTERS ##
@@ -44,7 +45,7 @@ main:
 	la $a0, startingStringGen
 	syscall
 	
-	addi $t0, $t0, 0 # Set $t0 to zero. This will be our counter
+	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	jal loop
 	
 	li $v0, 4
@@ -55,25 +56,40 @@ main:
 	syscall
 	
 loop: 
-    bgt $t0,7, exit # If $t0 is greater than 7, branch to exit
-    addi $t0,$t0,1 # Add one to the value of $t0
-    li $v0, 4
-    la $a0, loopNumberStatement
-    syscall
+   	bgt $t0,7, exit # If $t0 is greater than 7, branch to exit
+    	addi $t0,$t0,1 # Add one to the value of $t0
+    	li $v0, 4
+    	la $a0, loopNumberStatement # Prints "This is loop number : 
+    	syscall
     
-    move $a0, $t0
-    li $v0, 1
-    syscall
+    	move $a0, $t0
+    	li $v0, 1 		# Prints the actual loop number
+    	syscall
     
-    li $v0, 4
-    la $a0, newLine
-    syscall
-   
-    j loop  
+    ## Perform work here ##
+    
+   	li   $v0, 41       	# get a random integer
+	syscall
+	
+	divu $t2, $a0, 26  	# mod the value in $a0 by 26 and store in $t2 so we can generate a letter number
+	mfhi $v0		# Get the remainder value
+	addi $v0, $v0, 1	# add 1 to modValue to handle case where the div operation results in 0
+	move $s0, $v0 		# move the mod value to $s0 to use elsewhere
+	
+	li $v0, 4
+	la $a0, randomNumberStatement # Print "The random number is: "
+	syscall
+	
+	move $a0, $s0
+	li $v0, 1	# Print the actual random number
+	syscall 
+	
+	li $v0, 4
+    	la $a0, newLine 	# Prints a new line
+    	syscall
+    	j loop  
 
 exit:
-	li $v0, 4
-	la $a0, exitLoopStatement
-	jr $ra
+	jr $ra # return us to the caller, which brings us back to main
 	
 
