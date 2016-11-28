@@ -22,7 +22,7 @@ vowelU: .byte 'u'
 
 .text
 
-main:
+keyGenerator:
 	#li $v0, 4
 	#la $a0, startingKeyGen #Prints "Starting keyGen"
 	#syscall
