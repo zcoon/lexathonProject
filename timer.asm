@@ -4,10 +4,10 @@
 #11/22/16
 
 .data
-prompt1: .asciiz "Welcome to the program!" 
-timeLeft: .asciiz "The time left is : "
-timeUp: .asciiz "The time is over!"
-timeAvailable: .word 60 #Make sure to reset this each game
+welcomeTimer: .asciiz "Welcome to the timer!\n" 
+timeRemaining: .asciiz "The time remaining is : "
+timeUp: .asciiz "The time us up"
+timeAvailable: .word 60 # This should be reset each time
 currentTime: .word 0
 gameTime: .word 0
 remainingTime: .word 0
@@ -17,12 +17,17 @@ remainingTime: .word 0
 main:
 
 	li $v0,4
-	la $a0, prompt1
+	la $a0, welcomeTimer
 	syscall
 	
 	li $v0,4
-	la $a0, timeUp
+	la $a0, timeRemaining
 	syscall
+	
+	jal returnGameTime
+	
+	li $v0, 4
+	la $a0, ($v0)
 	
 	li $v0, 10
 	syscall
