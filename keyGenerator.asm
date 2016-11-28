@@ -39,6 +39,7 @@ main:
 	syscall
 	
 	####
+	
 	li   $v0, 41       # get a random int
 	syscall
 	divu $t0, $a0, 5   #mod it by 5 so we can generate a vowel 
@@ -58,15 +59,15 @@ main:
 	jal getVowel 	# Call the function to return 1 vowel
 	
 	li $v0, 4
-	la $a0, resultsFromGetVowel
+	la $a0, resultsFromGetVowel # Prints "The results from getVowel are : "
 	syscall
 	
 	li $v0, 11
-	la $a0, ($v1)
+	la $a0, ($v1) # Actually prints the result from getVowel, which should be a character
 	syscall
 	
 	li $v0, 4
-	la $a0, goodbye
+	la $a0, goodbye # Terminate the program
 	syscall
 	
 	li $v0, 10
@@ -86,7 +87,7 @@ modValueOne:
 	syscall
 	
 	la $a0, vowelE  # Get the address
-	sb $v1, ($a0)  # Get the value at that address
+	lb $v1, ($a0)  # Get the value at that address
 	
 modValueTwo:
 	li $v0, 4
@@ -94,7 +95,7 @@ modValueTwo:
 	syscall
 	
 	la $a0, vowelI  # Get the address
-	sb $v1, ($a0)  # Get the value at that address
+	lb $v1, ($a0)  # Get the value at that address
 	
 modValueThree:
 	li $v0, 4
@@ -102,7 +103,7 @@ modValueThree:
 	syscall
 	
 	la $a0, vowelO  # Get the address
-	sb $v1, 0($a0)  # Get the value at that address
+	lb $v1, 0($a0)  # Get the value at that address
 	
 modValueFour:
 	li $v0, 4
@@ -110,7 +111,7 @@ modValueFour:
 	syscall
 	
 	la $a0, vowelU  # Get the address
-	sb $v1, ($a0)  # Get the value at that address
+	lb $v1, ($a0)  # Get the value at that address
 	
 
 getVowel:
@@ -122,7 +123,8 @@ getVowel:
 	beq $a1, 3 modValueThree #branch if $s0 == 3
 	beq $a1, 4 modValueFour #branch if $s0 == 4
 	
-	la $a0, vowelA  # Get the address of the vowel
-	lb $v1, 0($a0)  # Store the contents of the vowelAddress into $v1 to return
+	#The following is a hard coded solution to always return vowelA
+	#la $a0, vowelA  # Get the address of the vowel
+	#lb $v1, 0($a0)  # Store the contents of the vowelAddress into $v1 to return
 	
 	jr $ra
