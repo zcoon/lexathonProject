@@ -122,8 +122,7 @@ getVowel:
 	beq $a1, 3 modValueThree #branch if $s0 == 3
 	beq $a1, 4 modValueFour #branch if $s0 == 4
 	
-	la $a0, vowelA  # Get the address
-	#sb $v1, ($a0)  # Get the value at that address
-	lb $v1, 0($a0)
+	la $a0, vowelA  # Get the address of the vowel
+	lb $v1, 0($a0)  # Store the contents of the vowelAddress into $v1 to return
 	
 	jr $ra
