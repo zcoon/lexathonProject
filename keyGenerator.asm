@@ -62,7 +62,7 @@ main:
 	syscall
 	
 	li $v0, 11
-	la $a0, ($t0)
+	la $a0, ($v1)
 	syscall
 	
 	li $v0, 4
@@ -78,7 +78,7 @@ modValueZero:
 	syscall
 	
 	la $a0, vowelA  # Get the address
-	sb $v0, ($a0)  # Get the value at that address
+	sb $v1, ($a0)  # Get the value at that address
 	
 modValueOne:
 	li $v0, 4
@@ -86,7 +86,7 @@ modValueOne:
 	syscall
 	
 	la $a0, vowelE  # Get the address
-	sb $v0, ($a0)  # Get the value at that address
+	sb $v1, ($a0)  # Get the value at that address
 	
 modValueTwo:
 	li $v0, 4
@@ -94,7 +94,7 @@ modValueTwo:
 	syscall
 	
 	la $a0, vowelI  # Get the address
-	sb $v0, ($a0)  # Get the value at that address
+	sb $v1, ($a0)  # Get the value at that address
 	
 modValueThree:
 	li $v0, 4
@@ -102,7 +102,7 @@ modValueThree:
 	syscall
 	
 	la $a0, vowelO  # Get the address
-	sb $v0, 0($a0)  # Get the value at that address
+	sb $v1, 0($a0)  # Get the value at that address
 	
 modValueFour:
 	li $v0, 4
@@ -110,10 +110,11 @@ modValueFour:
 	syscall
 	
 	la $a0, vowelU  # Get the address
-	sb $v0, ($a0)  # Get the value at that address
+	sb $v1, ($a0)  # Get the value at that address
 	
 
 getVowel:
+#a0 holds the mod value
 	move $a1, $a0 #Copy value of $a0 into $a1
 	beq $a1, 0 modValueZero #branch if $s0 == 0
 	beq $a1, 1 modValueOne #branch if $s0 == 1
@@ -121,10 +122,8 @@ getVowel:
 	beq $a1, 3 modValueThree #branch if $s0 == 3
 	beq $a1, 4 modValueFour #branch if $s0 == 4
 	
-	move $t0, $v0
-	
-	#li $v0, 4
-	#la $a0, 4($v0)
-	#syscall
+	la $a0, vowelA  # Get the address
+	#sb $v1, ($a0)  # Get the value at that address
+	lb $v1, 0($a0)
 	
 	jr $ra
