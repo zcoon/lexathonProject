@@ -92,4 +92,35 @@ loop:
 exit:
 	jr $ra # return us to the caller, which brings us back to main
 	
+getLetter:
+	#a0 holds the mod value, which is 1, 2, 3, 4 or 5 to be mapped to a variable
+
+	beq $a0, 1 modValueOne #branch if $s0 == 1
+	beq $a0, 2 modValueTwo #branch if $s0 == 2
+	beq $a0, 3 modValueThree #branch if $s0 == 3
+	beq $a0, 4 modValueFour #branch if $s0 == 4
+	beq $a0, 5 modValueFive #branch if $s0 == 5
+	beq $a0, 6 modValueSix #branch if $s0 == 1
+	beq $a0, 7 modValueSeven #branch if $s0 == 2
+	beq $a0, 8 modValueEight #branch if $s0 == 3
+	beq $a0, 9 modValueNine #branch if $s0 == 4
+	beq $a0, 10 modValueTen #branch if $s0 == 5
+	beq $a0, 11 modValueEleven #branch if $s0 == 1
+	beq $a0, 12 modValueTwelve #branch if $s0 == 2
+	beq $a0, 13 modValueThirteen #branch if $s0 == 3
+	beq $a0, 14 modValueFourteen #branch if $s0 == 4
+	beq $a0, 15 modValueFifteen #branch if $s0 == 5
+	beq $a0, 16 modValueSixteen #branch if $s0 == 1
+	beq $a0, 17 modValueSeventeen #branch if $s0 == 2
+	beq $a0, 18 modValueEighteen #branch if $s0 == 3
+	beq $a0, 19 modValueNineteen #branch if $s0 == 4
+	beq $a0, 20 modValueTwenty #branch if $s0 == 5
+	beq $a0, 21 modValueTwentyOne #branch if $s0 == 1
+	beq $a0, 22 modValueTwentyTwo #branch if $s0 == 2
+	beq $a0, 23 modValueTwentyThree #branch if $s0 == 3
+	beq $a0, 24 modValueTwentyFour #branch if $s0 == 4
+	beq $a0, 25 modValueTwentyFive #branch if $s0 == 5
+	beq $a0, 26 modValueTwentySix #branch if $s0 == 5
+	
+	jr $ra
 
