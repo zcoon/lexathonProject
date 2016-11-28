@@ -1,6 +1,6 @@
 .data
 
-startingKeyGen: .asciiz "\nStarting keyGen"
+startingKeyGen: .asciiz "\nStarting keyGen\n"
 
 newLine: .asciiz "\n"
 inModValueZero: .asciiz "\nIn Mod Value Zero"
@@ -28,30 +28,26 @@ main:
 	syscall
 
 	li $v0, 4
-	la $a0, startingKeyGen
-	syscall
-	
-	li $v0, 4
-	la $a0, newLine
+	la $a0, startingKeyGen #Prints "Starting keyGen"
 	syscall
 	
 	####
 	
-	li   $v0, 41       # get a random int
+	li   $v0, 41       	# get a random int
 	syscall
-	divu $t0, $a0, 5   #mod it by 5 so we can generate a vowel 
+	divu $t0, $a0, 5   	# mod it by 5 so we can generate a vowel with that vowel
 	mfhi $v0
-	move $s0, $v0 #move the mod value to $s0
+	move $s0, $v0 		# move the mod value to $s0
 	
 	li $v0, 4
-	la $a0, modValueIs # Prints statement "The mod value is "
+	la $a0, modValueIs 	# Prints statement "The mod value is "
 	syscall
 	
-	move $a0, $s0 	#move the modValue to $a0
-	li $v0, 1 	#print the mod value, this should be 0, 1, 2, 3 or 4
+	move $a0, $s0 		# move the modValue to $a0
+	li $v0, 1 		# print the mod value, this should be 0, 1, 2, 3 or 4
 	syscall
 	
-	jal getVowel 	# Call the function to return 1 vowel
+	jal getVowel 		# Call the function to return 1 vowel
 	
 	li $v0, 4
 	la $a0, resultsFromGetVowel # Prints "The results from getVowel are : "
@@ -110,7 +106,7 @@ modValueFour:
 	
 
 getVowel:
-#a0 holds the mod value
+	#a0 holds the mod value, which is 0, 1, 2, 3 or 4 to be mapped to a variable
 	move $a1, $a0 #Copy value of $a0 into $a1
 	beq $a1, 0 modValueZero #branch if $s0 == 0
 	beq $a1, 1 modValueOne #branch if $s0 == 1
