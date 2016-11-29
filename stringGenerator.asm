@@ -52,6 +52,14 @@ letterZ: .byte 'z'
 	
 	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	
+	#addi $sp, $sp, -8   #make room on the stack
+   	#sw  $ra, -4($sp)  
+   	
+   	
+	jal loop
+	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
+	jal loop
+	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	jal loop
 	
 	li $v0, 4
@@ -62,11 +70,12 @@ letterZ: .byte 'z'
 	syscall
 	
 loop: 
-        addi $sp, $sp, -12   #make room on the stack
+        addi $sp, $sp, -12   # make room on the stack
    	sw  $ra, -8($sp)     # store the address
    	
    	bgt $t0,0, exit # If $t0 is greater than 2, branch to exit
     	addi $t0,$t0,1 # Add one to the value of $t0
+    	
     	li $v0, 4
     	la $a0, loopNumberStatement # Prints "This is loop number : 
     	syscall
@@ -111,7 +120,7 @@ loop:
     	j loop  
 
 exit:
-	lw  $ra, 4($sp) # this works with the following setup in the loop function :
+	lw  $ra, 4($sp) # lw  $ra, 4($sp) works with the following setup at the top of the loop function :
 	#
 	#
 	# addi $sp, $sp, -12   #make room on the stack
