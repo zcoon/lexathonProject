@@ -45,12 +45,13 @@ letterZ: .byte 'z'
 
 .text
 
-main:
+#main:
 	li $v0, 4
 	la $a0, startingStringGen
 	syscall
 	
 	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
+	
 	jal loop
 	
 	li $v0, 4
@@ -61,7 +62,10 @@ main:
 	syscall
 	
 loop: 
-   	bgt $t0,2, exit # If $t0 is greater than 7, branch to exit
+        addi $sp, $sp, -12   #make room on the stack
+   	sw  $ra, -8($sp)     # store the address
+   	
+   	bgt $t0,0, exit # If $t0 is greater than 2, branch to exit
     	addi $t0,$t0,1 # Add one to the value of $t0
     	li $v0, 4
     	la $a0, loopNumberStatement # Prints "This is loop number : 
@@ -96,16 +100,25 @@ loop:
 	la $a0, letterStatement
 	syscall
 	
-#	li $v0, 11
-#	la $a0, ($v1) # Actually prints the result from getLetter, which should be a letter of the alphabet
-#	syscall
+	li $v0, 11
+	la $a0, ($v1) # Actually prints the result from getLetter, which should be a letter of the alphabet
+	syscall
 	
 	li $v0, 4
     	la $a0, newLine 	# Prints a new line
     	syscall
+  	
     	j loop  
 
 exit:
+	lw  $ra, 4($sp) # this works with the following setup in the loop function :
+	#
+	#
+	# addi $sp, $sp, -12   #make room on the stack
+   	# sw  $ra, -8($sp)     # store the address
+   	# bgt $t0,0, exit # If $t0 is greater than 2, branch to exit
+	#
+	#
 	jr $ra # return us to the caller, which brings us back to main
 	
 getLetter:
