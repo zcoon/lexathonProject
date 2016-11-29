@@ -47,10 +47,16 @@ letterZ: .byte 'z'
 
 #main:
 	li $v0, 4
-	la $a0, startingStringGen # Prints statement "starting string gen"
+	la $a0, startingStringGen
 	syscall
 
-   	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
+  	#t0 must be set to zero each time because we use a for loop with max value of zero in "loop"
+  	#then we call the loop function 8 times. Obviously not the best way to do it, but it works.
+
+  	#I think we should have another variable here, $t1, which we increment by four before calling loop each time
+  	#That way, we can use that variable as the increasing offset for a word address to add bytes to a word?
+
+  	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	jal loop
 	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	jal loop
@@ -66,68 +72,68 @@ letterZ: .byte 'z'
 	jal loop
 	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	jal loop
-	
+
 	li $v0, 4
-	la $a0, exitLoopStatement #Prints "Done with the loop -- back in main"
+	la $a0, exitLoopStatement
 	syscall
-	
-	li $v0, 10 # Terminate the program
+
+	li $v0, 10
 	syscall
-	
-loop: 
+
+loop:
         addi $sp, $sp, -12   # make room on the stack
    	sw  $ra, -8($sp)     # store the address
-   	
+
    	bgt $t0,0, exit # If $t0 is greater than 2, branch to exit
     	addi $t0,$t0,1 # Add one to the value of $t0
-    	
+
     	#li $v0, 4
-    	#la $a0, loopNumberStatement # Prints "This is loop number : 
+    	#la $a0, loopNumberStatement # Prints "This is loop number :
     	#syscall
-    
+
     	#move $a0, $t0
     	#li $v0, 1 		# Prints the actual loop number
     	#syscall
-    
+
     ## Perform work here ##
-    
+
    	li   $v0, 41       	# get a random integer
 	syscall
-	
+
 	divu $t2, $a0, 26  	# mod the value in $a0 by 26 and store in $t2 so we can generate a letter number
 	mfhi $v0		# Get the remainder value
 	addi $v0, $v0, 1	# add 1 to modValue to make numbers match those of the alphabet
 	move $s0, $v0 		# move the mod value to $s0 to use elsewhere
-	
+
 	li $v0, 4
 	la $a0, randomNumberStatement # Print "The random number is: "
 	syscall
-	
+
 	move $a0, $s0
 	li $v0, 1	# Print the actual random number
-	syscall 
-	
-	move $a0, $s0 #move the random number to $a0 to pass to the getLetter function
-	jal getLetter
-	
-	li $v0, 4
-	la $a0, letterStatement #Print "The letter is :"
 	syscall
-	
+
+	move $a0, $s0   # Move the random int to $a0 to pass to the getLetter function
+	jal getLetter
+
+	li $v0, 4
+	la $a0, letterStatement   #Prints "The letter is: "
+	syscall
+
 	li $v0, 11
 	la $a0, ($v1) # Actually prints the result from getLetter, which should be a letter of the alphabet
 	syscall
-	
+
 	li $v0, 4
     	la $a0, newLine 	# Prints a new line
     	syscall
-  	
-    	j loop   #Restart the loop. The way we designed it, it should only execute once and then break out on second iteration.
+
+    	j loop
 
 exit:
-	lw  $ra, 4($sp) # lw  $ra, 4($sp) works with the following setup at the top of the loop function :
+	lw  $ra, 4($sp) # Do not change this or it will break
 	jr $ra # return us to the caller, which brings us back to main
-	
+
 getLetter:
 	#a0 holds the mod value, which should be 1 through 26 to be mapped to a letter of the alphabet
 
@@ -157,267 +163,266 @@ getLetter:
 	beq $a0, 24 modValueTwentyFour #branch if $s0 == 24
 	beq $a0, 25 modValueTwentyFive #branch if $s0 == 25
 	beq $a0, 26 modValueTwentySix #branch if $s0 == 26
-	
+
 	jr $ra
 
 modValueOne:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterA  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwo:
 	#li $v0, 4
 	#la $a0, inModValueTwo #Log Statement
 	#syscall
-	
+
 	la $a0, letterB  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueThree:
 	#li $v0, 4
 	#la $a0, inModValueThree #Log Statement
 	#syscall
-	
+
 	la $a0, letterC  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueFour:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterD  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueFive:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterE  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueSix:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterF  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueSeven:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterG  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueEight:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterH  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueNine:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterI  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterJ  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueEleven:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterK  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwelve:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterL  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueThirteen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterM  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueFourteen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterN  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueFifteen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterO  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueSixteen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterP  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueSeventeen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterQ  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueEighteen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterR  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueNineteen:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterS  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwenty:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterT  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwentyOne:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterU  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwentyTwo:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterV  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwentyThree:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterW  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwentyFour:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterX  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
+
 modValueTwentyFive:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterY  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
-		
+
+
 modValueTwentySix:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
-	
+
 	la $a0, letterZ  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
-	
+
 	jr $ra
-	
