@@ -2,9 +2,12 @@
 	wordLength:		.word 0
 	validWordMessage: 	.asciiz "Valid word"		#This will be taken out
 	invalidWordMessage:	.asciiz "Invalid word"		#This will be taken out
-	userWord: 		.asciiz "thxerx"
+	
+	userWord: 		.asciiz "thxerx"		#will be passed in from main
+	keyLetter:		.asciiz "a"			#...
+	gridArray: 		.asciiz "hpry"			#...
+	
 	nullterminator:		.asciiz ""
-	gridArray: 		.asciiz "hpry"
 	duplicateFile: 		.asciiz "/Users/juangarcia/duplicateFile.txt"      # filename for input
 	newline: 		.asciiz "\n"
 	buffer: 		.space 2000000	
@@ -37,6 +40,20 @@
 	Yfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/ywords.txt"      # filename for input
 	Zfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/zwords.txt"      # filename for input
 .text
+checkKey:
+	lb $t0, keyLetter 	
+keyLoop:
+        lb $t1, userWord($t2)
+        addi $t2, $t2, 1
+        beq $t1, $t3, invalidWord	#null check
+        beq $t1, $t0, keyDone		#key check
+        j keyLoop
+keyDone:
+	add $t0, $zero, $zero
+	add $t1, $zero, $zero
+	add $t2, $zero, $zero
+	add $t3, $zero, $zero
+	
 CheckLength:
         addi $t0, $t0, 4
         addi $t1, $t1, 9
