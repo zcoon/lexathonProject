@@ -136,33 +136,34 @@ printGameGrid:
 	
      	la $a0, gridPrint
      	syscall   
-     	
-   	sw $v0, gridWordHold
-     	lb $a0, gridWordHold($t5)
-     	syscall
-     	
-     	addi $t5, $t5, 1
-     	
-     	la $a0, gridPrint
-     	syscall
-     	
-     
-   	sw $v0, gridWord
+     				
+	li $v0, 11
      	lb $a0, gridWord($t5)
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
-    
-   	sw $v0, gridWord
+   	li $v0, 11
      	lb $a0, gridWord($t5)
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
+     	la $a0, gridPrint
+     	syscall
+	
+     	li $v0, 11
+     	lb $a0, gridWord($t5)
+     	syscall
+     	
+     	addi $t5, $t5, 1
+     	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
@@ -175,32 +176,35 @@ printGameGrid:
      	la $a0, gridPrint
      	syscall   
      	
-     
-   	sw $v0, gridWord
+     	li $v0, 11
      	lb $a0, gridWord($t5)
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
     #######key letter######
     j keyGenerator
  printKeyLetter:
-     	lb $a0, ($s7)
-     	syscall 
+     	li $v0, 11
+     	lb $a0, gridWord($t5)		
+     	syscall
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
 printGameGridHalf:
-   	sw $v0, gridWord
-     	lb $a0, gridWord($t5)
+   	li $v0, 11
+     	lb $a0, gridWord($t5)		
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
@@ -213,31 +217,33 @@ printGameGridHalf:
      	la $a0, gridPrint
      	syscall   
      	
-   	sw $v0, gridWord
-     	lb $a0, gridWord($t5)
+   	li $v0, 11
+     	lb $a0, gridWord($t5)		
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
-   	sw $v0, gridWord
-     	lb $a0, gridWord($t5)
+   	li $v0, 11
+     	lb $a0, gridWord($t5)		
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
-     
-   	sw $v0, gridWord
-     	lb $a0, gridWord($t5)
+   	li $v0, 11
+     	lb $a0, gridWord($t5)		
      	syscall
      	
      	addi $t5, $t5, 1
      	
+	li $v0, 4
      	la $a0, gridPrint
      	syscall
      	
