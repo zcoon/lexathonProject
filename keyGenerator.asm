@@ -59,7 +59,7 @@ keyGenerator:
 
 #	li $v0, 10 # Terminate program
 #	syscall
-j keyGenExit:
+	j keyGenExit
 
 modValueOne:
 	#li $v0, 4

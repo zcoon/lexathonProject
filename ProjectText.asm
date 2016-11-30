@@ -26,7 +26,7 @@
 	gridWord: 		.space 8
 	.text	
 	
-	.include "letterGen"
+	#.include "letterGen"
 	
 startScreen:	
 
