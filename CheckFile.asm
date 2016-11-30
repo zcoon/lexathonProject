@@ -4,7 +4,7 @@
 	invalidWordMessage:	.asciiz "Invalid word"		#This will be taken out
 	userWord: 		.asciiz "thxerx"
 	nullterminator:		.asciiz ""
-	gridArray: 		.ascii "hpry"
+	gridArray: 		.asciiz "hpry"
 	duplicateFile: 		.asciiz "/Users/juangarcia/duplicateFile.txt"      # filename for input
 	newline: 		.asciiz "\n"
 	buffer: 		.space 2000000	
