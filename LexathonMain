@@ -186,6 +186,7 @@ printGameGrid:
      	syscall
      	
     #######key letter######
+    j keyGenerator
  printKeyLetter:
      	lb $a0, ($s7)
      	syscall 
