@@ -4,46 +4,15 @@
 #11/22/16
 
 .data
-welcomeTimer: .asciiz "Welcome to the timer!\n" 
-timeRemaining: .asciiz "The time remaining is : "
-timeUp: .asciiz "The time us up"
-timeAvailable: .word 60 # This should be reset each time
+displayTime: .asciiz "Time remaining: "
+timeAvailable:.word 60 #reset each game!!!
 currentTime: .word 0
 gameTime: .word 0
 remainingTime: .word 0
+youHaveTimeLeft: .asciiz "You have time left!"
+timeHasRunOutMessage: .asciiz "You don't have time left!"
+newLine: .asciiz "\n"
 
-.text
-
-main:
-
-	li $v0,4
-	la $a0, welcomeTimer
-	syscall
-	
-	li $v0,4
-	la $a0, timeRemaining
-	syscall
-	
-	jal returnGameTime
-	
-	li $v0, 4
-	la $a0, ($v0)
-	
-	li $v0, 10
-	syscall
-	
-	
-#Stores time remaining in output $v0
-returnGameTime:
-	addi $sp, $sp, -4
-	sw $ra, ($sp)
-	lw $t4, timeAvailable
-	jal getTimeElapsed
-	sub $v0, $t4, $v0
-	sw $v0, gameTime
-	lw $ra, ($sp)
-	addi $sp, $sp, 4
-	jr $ra	
 	
 #Adds 20 seconds to the timer
 addTime:
@@ -53,14 +22,14 @@ addTime:
 	jr $ra
 	
 #Finds current system time and outputs it (as seconds) on $v0
-#Should be called every time a new board is generated, so that getTimeElapsed only returns time since that board's inception.
+#Should be called every time a new game is started, so that getTimeElapsed only returns time since the beginning of that game.
 getTimeCurrent:
-	li $v0, 30				#syscall 30 to get systime in ms
-	syscall					#now $a0 has lower 32 bits of system time
+	li $v0, 30				#Syscall 30 to get systime in ms
+	syscall					#Now $a0 has lower 32 bits of system time
 	
-	li $t0, 1000			#convert system time from milliseconds to seconds
-	div $a0, $t0			#lo holds seconds
-	mflo $v0				#return seconds
+	li $t0, 1000			#This converts system time from milliseconds to seconds
+	div $a0, $t0			#Lo will now hold the seconds value
+	mflo $v0			#Return the seconds
 	jr $ra	
 	
 #Last call of current time should be saved on $a1 first
@@ -70,11 +39,11 @@ getTimeElapsed:					#parameter is $a1 (start)
 	addi $sp, $sp, -8
 	sw $ra, ($sp)
 	sw $a1, 4($sp)
-	jal getTimeCurrent			#find currentTime, and get it on $v0
-	lw $t0, 4($sp)			#load startTime onto $t0
+	jal getTimeCurrent			#find currentTime, and put it on $v0
+	lw $t0, 4($sp)				#load startTime onto $t0
 	lw $ra, ($sp)
 	addi $sp, $sp, 8
-	sub $v0, $v0, $t0			#get difference in time
+	sub $v0, $v0, $t0			#Calculate difference in time and return it on $v0
 	jr $ra
 
 	
