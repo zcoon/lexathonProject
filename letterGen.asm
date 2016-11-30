@@ -3,8 +3,8 @@
 .data
 
 startingStringGen: .asciiz "\nStarting StringGen\n"
-goodbye: .asciiz "\n Terminating"
-resultsFromGetVowel: .asciiz "\nThe result from getVowel is: "
+#goodbye: .asciiz "\n Terminating"
+#resultsFromGetVowel: .asciiz "\nThe result from getVowel is: "
 exitLoopStatement: .asciiz "Done with the loop -- Back in main"
 loopNumberStatement: .asciiz "This is loop number: "
 randomNumberStatement: .asciiz " The random int is: "
@@ -48,7 +48,7 @@ gridWordHold: 	.word 8
 
 .text
 
-#main:
+letterGen:
 	li $v0, 4
 	la $a0, startingStringGen
 	syscall
@@ -76,12 +76,14 @@ gridWordHold: 	.word 8
 	add $t0, $0, $0 # Set $t0 to zero. This will be our counter
 	jal loop
 
-	li $v0, 4
-	la $a0, exitLoopStatement
-	syscall
+	#li $v0, 4
+	#la $a0, exitLoopStatement
+	#syscall
 
-	li $v0, 10
-	syscall
+	#li $v0, 10
+	#syscall
+	
+	j letterGenExit
 
 loop:
         addi $sp, $sp, -12   # make room on the stack
@@ -131,9 +133,9 @@ loop:
 	la $a0, gridWordHold
 	syscall 
 
-	li $v0, 11
-	move $a0, $v1 # Actually prints the result from getLetter, which should be a letter of the alphabet
-	syscall
+	#li $v0, 11
+	#move $a0, $v1 # Actually prints the result from getLetter, which should be a letter of the alphabet
+	#syscall
 
 	li $v0, 4
     	la $a0, newline 	# Prints a new line
@@ -437,3 +439,5 @@ modValueTwentySix:
 	lb $v1, ($a0)  # Get the value at that address
 
 	jr $ra
+	
+letterGenExit:

@@ -8,7 +8,7 @@
 	rulesFour: 		.asciiz "4. Each word must have at least 4 different letters in it (no duplicate letters are allowed).\n"
 	rulesFive:		.asciiz "5. When the 60 seconds is up the game is over or simply quit by entering 0.\n\n"
 	beginGame: 		.asciiz "Enter 1 to begin the game or 0 to quit!"
-	newLine: 		.asciiz "\n"
+	projectTextNewLine: 	.asciiz "\n"
 	gameOver:		.asciiz "\n**************************************** GAME  OVER!! *************************************\n"
 	scoreMessage:		.asciiz "\nTotal score: "
 	missedWordsNumber:	.asciiz "Total number of missed words: "
@@ -26,7 +26,7 @@
 	gridWord: 		.space 8
 	.text	
 	
-	#.include "letterGen"
+	#.include "letterGen.asm"
 	
 startScreen:	
 
@@ -52,7 +52,7 @@ startScreen:
      	la $a0, rulesFive
      	syscall
      	
-     	la $a0, newLine
+     	la $a0, projectTextNewLine
      	syscall  
      	
      	la $a0, beginGame
@@ -103,7 +103,7 @@ PrintGameGrid:
      	la $a0, gridPrint
      	syscall
      	
-     	la $a0, newLine
+     	la $a0, projectTextNewLine
      	syscall
      	
      	la $a0, gridPrintRow
@@ -142,7 +142,7 @@ PrintGameGrid:
      	la $a0, gridPrint
      	syscall
      	
-     	la $a0, newLine
+     	la $a0, projectTextNewLine
      	syscall
      	
      	la $a0, gridPrintRow
@@ -181,7 +181,7 @@ PrintGameGrid:
      	la $a0, gridPrint
      	syscall
      	
-     	la $a0, newLine
+     	la $a0, projectTextNewLine
      	syscall
      	
      	la $a0, gridPrintRow

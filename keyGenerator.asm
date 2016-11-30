@@ -3,11 +3,11 @@
 startingKeyGen: .asciiz "\nStarting keyGen\n"
 
 newLine: .asciiz "\n"
-inModValueOne: .asciiz "\nIn Mod Value One"
-inModValueTwo: .asciiz "\nIn Mod Value Two"
-inModValueThree: .asciiz "\nIn Mod Value Three"
-inModValueFour: .asciiz "\nIn Mod Value Four"
-inModValueFive: .asciiz "\nIn Mod Value Five"
+inKeyModValueOne: .asciiz "\nIn Mod Value One"
+inKeyModValueTwo: .asciiz "\nIn Mod Value Two"
+inKeyModValueThree: .asciiz "\nIn Mod Value Three"
+inKeyModValueFour: .asciiz "\nIn Mod Value Four"
+inKeyModValueFive: .asciiz "\nIn Mod Value Five"
 goodbye: .asciiz "\nTerminating"
 modValueIs: .asciiz "Mod value is "
 tempValueIs: .asciiz "Temp value is "
@@ -61,7 +61,7 @@ keyGenerator:
 #	syscall
 	j keyGenExit
 
-modValueOne:
+keyModValueOne:
 	#li $v0, 4
 	#la $a0, inModValueOne #Log Statement
 	#syscall
@@ -71,7 +71,7 @@ modValueOne:
 
 	jr $ra
 
-modValueTwo:
+keyModValueTwo:
 	#li $v0, 4
 	#la $a0, inModValueTwo #Log Statement
 	#syscall
@@ -81,7 +81,7 @@ modValueTwo:
 
 	jr $ra
 
-modValueThree:
+keyModValueThree:
 	#li $v0, 4
 	#la $a0, inModValueThree #Log Statement
 	#syscall
@@ -91,7 +91,7 @@ modValueThree:
 
 	jr $ra
 
-modValueFour:
+keyModValueFour:
 	#li $v0, 4
 	#la $a0, inModValueFour #Log Statement
 	#syscall
@@ -101,7 +101,7 @@ modValueFour:
 
 	jr $ra
 
-modValueFive:
+keyModValueFive:
 	#li $v0, 4
 	#la $a0, inModValueFive #Log Statement
 	#syscall
@@ -114,11 +114,11 @@ modValueFive:
 getVowel:
 	#a0 holds the mod value, which is 1, 2, 3, 4 or 5 to be mapped to a variable
 
-	beq $a0, 1 modValueOne #branch if $s0 == 1
-	beq $a0, 2 modValueTwo #branch if $s0 == 2
-	beq $a0, 3 modValueThree #branch if $s0 == 3
-	beq $a0, 4 modValueFour #branch if $s0 == 4
-	beq $a0, 5 modValueFive #branch if $s0 == 5
+	beq $a0, 1 keyModValueOne #branch if $s0 == 1
+	beq $a0, 2 keyModValueTwo #branch if $s0 == 2
+	beq $a0, 3 keyModValueThree #branch if $s0 == 3
+	beq $a0, 4 keyModValueFour #branch if $s0 == 4
+	beq $a0, 5 keyModValueFive #branch if $s0 == 5
 
 	jr $ra
 

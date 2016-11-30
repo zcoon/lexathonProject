@@ -11,7 +11,7 @@ gameTime: .word 0
 remainingTime: .word 0
 youHaveTimeLeft: .asciiz "You have time left!"
 timeHasRunOutMessage: .asciiz "You don't have time left!"
-newLine: .asciiz "\n"
+#newLine: .asciiz "\n"
 
 #################
 # The way the Timer function is supposed to work, we need to call getTimeCurrent
