@@ -13,6 +13,17 @@ youHaveTimeLeft: .asciiz "You have time left!"
 timeHasRunOutMessage: .asciiz "You don't have time left!"
 newLine: .asciiz "\n"
 
+#################
+# The way the Timer function is supposed to work, we need to call getTimeCurrent
+# when the game begins, and store that value in a .word which we can call beginningTime.
+# We should also have a variable called timeRemaining which we initialize to 60 if the user initially has 60 seconds.
+# Then each time the user moves, we will call the getTimeElapsed function.
+# This will give us the value from subtracting the beginningTime from the beginningTime.
+# Then we will subtract that value from the timeRemaining with the formula timeRemaining = timeRemaining - (result of getTimeElapsed).
+# Then we should use the slt function to say $slt timeValid, timeRemaining, $zero.
+# This will set timeValid (a new .word variable) to 1 if timeRemaining is less than 0.
+# Then if timeValid = 1, we will terminate the program
+
 	
 #Adds 20 seconds to the timer
 addTime:
