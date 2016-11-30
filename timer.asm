@@ -5,7 +5,7 @@
 
 .data
 displayTime: .asciiz "Time remaining: "
-timeAvailable:.word 60 #reset each game!!!
+timeRemaining:.word 60 #reset each game!!!
 currentTime: .word 0
 gameTime: .word 0
 remainingTime: .word 0
