@@ -13,7 +13,7 @@
 	scoreMessage:		.asciiz "\nTotal score: "
 	missedWordsNumber:	.asciiz "Total number of missed words: "
 	possibleWordsNumber:	.asciiz "\nNumber of possible words: "
-	input: 			.space 9
+	input: 			.space 30
 	inputBad:		.asciiz "Invalid Entry, Please Try Again!\n"
 	playAgainMessage:	.asciiz "\nWould you like to play again? Type '1' for Yes or '0' for No (Exit Program): "
 	successMessage1: 	.asciiz "\nThe total number of correct words you enetered was: "
@@ -511,9 +511,8 @@ modValueTwentySix:
 	jr $ra
 
 writeWordToDuplicateFile:
-	lb $t1, nullTerminator
-do:    	lb $t2, myword($t0)
-	beq $t2, $t1, endWhile     #calculates the length of myword and stores it in $t0	
+do:    	lb $t2, input($t0)
+	beq $t2, $zero, endWhile     #calculates the length of myword and stores it in $t0	
     	addi $t0, $t0, 1
     	j do
 endWhile:		
@@ -526,7 +525,7 @@ endWhile:
 
     	move $a0, $v0  # Syscall 15 requires file descriptor in $a0
     	li $v0, 15
-    	la $a1, myword
+    	la $a1, input
     	
     	bne $t0, 4, check5
     	li $a2, 4  
