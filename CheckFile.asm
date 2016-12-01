@@ -8,37 +8,37 @@
 	gridArray: 		.asciiz "hpry"			#...
 	
 	nullterminator:		.asciiz ""
-	duplicateFile: 		.asciiz "/Users/juangarcia/duplicateFile.txt"      # filename for input
+	duplicateFile: 		.asciiz "/duplicateFile.txt"      # filename for input
 	newline: 		.asciiz "\n"
 	buffer: 		.space 2000000	
 	fileword: .space 30
 	alphabet: .asciiz "abcdefghijklmnopqrstuvwxyz"
-	Afile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/awords.txt"      # filename for input
-	Bfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/bwords.txt"      # filename for input
-	Cfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/cwords.txt"      # filename for input
-	Dfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/dwords.txt"      # filename for input
-	Efile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/ewords.txt"      # filename for input
-	Ffile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/fwords.txt"      # filename for input
-	Gfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/gwords.txt"      # filename for input
-	Hfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/hwords.txt"      # filename for input
-	Ifile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/iwords.txt"      # filename for input
-	Jfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/jwords.txt"      # filename for input
-	Kfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/kwords.txt"      # filename for input
-	Lfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/lwords.txt"      # filename for input
-	Mfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/mwords.txt"      # filename for input
-	Nfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/nwords.txt"      # filename for input
-	Ofile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/owords.txt"      # filename for input
-	Pfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/pwords.txt"      # filename for input
-	Qfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/qwords.txt"      # filename for input
-	Rfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/rwords.txt"      # filename for input
-	Sfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/swords.txt"      # filename for input
-	Tfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/twords.txt"      # filename for input
-	Ufile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/uwords.txt"      # filename for input
-	Vfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/vwords.txt"      # filename for input
-	Wfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/wwords.txt"      # filename for input
-	Xfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/xwords.txt"      # filename for input
-	Yfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/ywords.txt"      # filename for input
-	Zfile: .asciiz "/Users/juangarcia/Desktop/Word-Library-Juan/zwords.txt"      # filename for input
+	Afile: .asciiz "/awords.txt"      # filename for input
+	Bfile: .asciiz "/bwords.txt"      # filename for input
+	Cfile: .asciiz "/cwords.txt"      # filename for input
+	Dfile: .asciiz "/dwords.txt"      # filename for input
+	Efile: .asciiz "/ewords.txt"      # filename for input
+	Ffile: .asciiz "/fwords.txt"      # filename for input
+	Gfile: .asciiz "/gwords.txt"      # filename for input
+	Hfile: .asciiz "/hwords.txt"      # filename for input
+	Ifile: .asciiz "/iwords.txt"      # filename for input
+	Jfile: .asciiz "/jwords.txt"      # filename for input
+	Kfile: .asciiz "/kwords.txt"      # filename for input
+	Lfile: .asciiz "/lwords.txt"      # filename for input
+	Mfile: .asciiz "/mwords.txt"      # filename for input
+	Nfile: .asciiz "/nwords.txt"      # filename for input
+	Ofile: .asciiz "/owords.txt"      # filename for input
+	Pfile: .asciiz "/pwords.txt"      # filename for input
+	Qfile: .asciiz "/qwords.txt"      # filename for input
+	Rfile: .asciiz "/rwords.txt"      # filename for input
+	Sfile: .asciiz "/swords.txt"      # filename for input
+	Tfile: .asciiz "/twords.txt"      # filename for input
+	Ufile: .asciiz "/uwords.txt"      # filename for input
+	Vfile: .asciiz "/vwords.txt"      # filename for input
+	Wfile: .asciiz "/wwords.txt"      # filename for input
+	Xfile: .asciiz "/xwords.txt"      # filename for input
+	Yfile: .asciiz "/ywords.txt"      # filename for input
+	Zfile: .asciiz "/zwords.txt"      # filename for input
 .text
 checkKey:
 	lb $t0, keyLetter 	
