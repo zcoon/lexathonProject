@@ -374,10 +374,13 @@ gameEnd:
 	
 	move $t0, $zero
 	beq $v0, startScreen
-	beq $v0, $zero, gameEnd   #logic to start game over or quit
+	beq $v0, $zero, programEnd   #logic to start game over or quit
      	bne $v0, $t0, badInput
 	
 	j startScreen
+programEnd:
+	li $v0, 10
+	syscall
 keyGenerator:
 	li   $v0, 41       	# get a random int
 	syscall
