@@ -26,27 +26,6 @@
 	gridWord: 		.space 8
 	keyLetter:		.space 1
 	
-	startingKeyGen: .asciiz "\nStarting keyGen\n"
-
-	inKeyModValueOne: .asciiz "\nIn Mod Value One"
-	inKeyModValueTwo: .asciiz "\nIn Mod Value Two"
-	inKeyModValueThree: .asciiz "\nIn Mod Value Three"
-	inKeyModValueFour: .asciiz "\nIn Mod Value Four"
-	inKeyModValueFive: .asciiz "\nIn Mod Value Five"
-	goodbye: .asciiz "\nTerminating"
-	modValueIs: .asciiz "Mod value is "
-	tempValueIs: .asciiz "Temp value is "
-	
-	exitLoopStatement: .asciiz "Done with the loop -- Back in main"
-	loopNumberStatement: .asciiz "This is loop number: "
-	randomNumberStatement: .asciiz " The random int is: "
-	letterStatement: .asciiz " The letter is: "
-	getLetterStatement: .asciiz " In getLetter "
-	inModValueOne: .asciiz " In modValue One"
-	inModValueTwo: .asciiz " In modValue Two"
-	inModValueThree: .asciiz " In modValue Three"
-
-	## LETTERS ##
 	letterA: .byte 'a'
 	letterB: .byte 'b'
 	letterC: .byte 'c'
@@ -73,9 +52,6 @@
 	letterX: .byte 'x'
 	letterY: .byte 'y'
 	letterZ: .byte 'z'
-
-	gridWordHold: 	.word 8
-
 .text
 startScreen:	
 
@@ -103,17 +79,21 @@ startScreen:
      	
      	la $a0, newline
      	syscall  
-     	
+inputPrompt:     	
      	la $a0, beginGame
      	syscall
      	
      	li $v0, 5
      	syscall
      	
-     	move $t1, $v0
-     	blt $t1, 1, gameEnd
-     	bgt $t1, 1, badInput
+     	addi $t0, $zero, 1
+     	
+     	beq $v0, $zero, gameEnd
+     	bne $v0, $t0, badInput
+     	add $t0, $zero, $zero 
+     	
      	jal letterGen
+     	
      	
 printGameGrid:
 	move $t5, $zero
@@ -269,19 +249,16 @@ printGameGridHalf:
      	la $a0, gridPrintRow
      	syscall
      	
-     	li $v0, 10
-	syscall
-	
-	move $t5, $zero#sets array back at zero
+     	j inputPrompt
+     	
+##########################################################################################  end of main
 	
 badInput:
-	
 	li $v0, 4
 	la $a0, inputBad
 	syscall
 	
-	j startScreen
-	
+	j inputPrompt
 gameEnd:
 	li $v0, 4
 	la $a0, scoreMessage
@@ -326,7 +303,6 @@ keyModValueFive:
 	jr $ra
 getVowel:
 	#a0 holds the mod value, which is 1, 2, 3, 4 or 5 to be mapped to a variable
-
 	beq $a0, 1 keyModValueOne #branch if $s0 == 1
 	beq $a0, 2 keyModValueTwo #branch if $s0 == 2
 	beq $a0, 3 keyModValueThree #branch if $s0 == 3
