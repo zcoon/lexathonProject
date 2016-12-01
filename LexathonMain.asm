@@ -259,7 +259,6 @@ printGameGridHalf:
      	
      	##################### if the word is valid
      	jal writeWordToDuplicateFile
-     	##################### -write word to duplicate file
      	##################### -increment score
 	##################### jump back up to the userInput function
      	
