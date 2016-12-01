@@ -26,6 +26,7 @@
 	keyLetter:		.space 1
 	userScore:		.word 0
 	userInput:		.space 9
+	zeroString:		.asciiz "0"
 	letterA: .byte 'a'
 	letterB: .byte 'b'
 	letterC: .byte 'c'
@@ -297,6 +298,14 @@ userInputFunction:
  	 la $a0, userInput
  	 li $a1, 500
  	 syscall
+ 	 
+ 	 addi $t3, $zero, 1
+ 	 lb $t0, userInput($zero)
+ 	 lb $t1, zeroString($zero)		#this checks if the user entered 0 when asked for a word
+ 	 lb $t2, userInput($t3)			#ends the game
+ 	 bne $t2, $zero, validateUserInput
+ 	 beq $t0, $t1, gameEnd
+ 	 
 validateUserInput:
 	j Checks
 	
@@ -668,13 +677,14 @@ keyDone:
 	add $t3, $zero, $zero
 	
 CheckLength:
-        addi $t0, $t0, 4
-        addi $t1, $t1, 9
+        addi $t0, $zero, 4
+        addi $t1, $zero, 9
 lengthLoop:
         lb $t2, userInput($t3) # load the next character into t2
         addi $t3, $t3, 1 # increment the string pointer
-        bne $t4, $t2, lengthLoop # check for the null character
-        subi $t3, $t3, 1
+        bne $t2, $zero, lengthLoop # check for the null character
+        subi $t3, $t3, 2
+       
         bgt $t3, $t1, invalidWord
         blt $t3, $t0, invalidWord
         
@@ -682,20 +692,6 @@ lengthLoop:
 	add $t1, $zero, $zero
 	add $t3, $zero, $zero
 	add $t4, $zero, $zero
-
-
-
-	add $t0, $zero, $zero
-	add $t1, $zero, $zero
-	add $t2, $zero, $zero
-	add $t3, $zero, $zero
-	add $t4, $zero, $zero
-	add $t5, $zero, $zero
-	add $t6, $zero, $zero
-	add $t7, $zero, $zero
-	add $t8, $zero, $zero
-	add $s1, $zero, $zero
-	add $s2, $zero, $zero
 							
 checkWordDictionary:
 	li $v0, 4
@@ -705,7 +701,6 @@ checkWordDictionary:
 	la $a0, userInput		#word
 	la $a1, alphabet
 	lw $a3, wordLength($0)
-	subi $a3, $a3, 1
 
 	lb $t0, 0($a0)		
 	
