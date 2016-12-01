@@ -25,6 +25,7 @@
 	gridPrintRow:		.asciiz " ___ ___ ___\n"
 	gridWord: 		.space 8
 	keyLetter:		.space 1
+	userScore:		.word 0
 	
 	letterA: .byte 'a'
 	letterB: .byte 'b'
@@ -555,7 +556,7 @@ doneCheck:
     	li $v0, 16  # $a0 already has the file descriptor. Closes the file 	
 endWriteWordToDuplicateFile:
 
-incrementUserScore:
+incrementScore:
      lw $t0, userScore
      addi $t0, $t0, 1
      sw $t0, userScore
