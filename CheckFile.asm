@@ -639,45 +639,6 @@ Checks:
 	add $s1, $zero, $zero
 	add $s2, $zero, $zero
 	
-	lb $t4, keyLetter 			#### grid check starts here
-wordGridCheck:	
-	lb $t0, userInput($t1)
-        lb $t2, gridWord($t3)
-        beq $t2, $zero, gridFail
-        beq $t0, $zero, gridChecked
-        bne $t2, $t0, moveGridArray
-        j moveUserArray
-moveGridArray:	
-	addi $t3, $t3, 1
-	j wordGridCheck
-moveUserArray:
-	addi $t1, $t1, 1
-	move $t3, $zero
-	j wordGridCheck
-gridFail: 
-	beq $t0, $t4, moveUserArray
-	j invalidWord
-gridChecked:					##### grid check ends here
-	
-	add $t0, $zero, $zero
-    	add $t1, $zero, $zero
-    	add $t2, $zero, $zero
-    	add $t3, $zero, $zero
-    	add $t4, $zero, $zero
-    	
-	lb $t0, keyLetter 	
-keyLoop:
-        lb $t1, userInput($t2)
-        addi $t2, $t2, 1
-        beq $t1, $t3, invalidWord	#null check
-        beq $t1, $t0, keyDone		#key check
-        j keyLoop
-keyDone:
-	add $t0, $zero, $zero
-	add $t1, $zero, $zero
-	add $t2, $zero, $zero
-	add $t3, $zero, $zero
-	
 CheckLength:
         addi $t0, $zero, 4
         addi $t1, $zero, 9
@@ -691,9 +652,38 @@ lengthLoop:
         blt $t3, $t0, invalidWord
         
         sw $t3, wordLength
+        
 	add $t1, $zero, $zero
 	add $t3, $zero, $zero
 	add $t4, $zero, $zero
+		
+	lw $t5, wordLength($0)
+wordGridCheck: 
+	lb $t0, userInput($t1)
+        lb $t2, gridWord($t3)
+        beq $t1, $t5, gridChecked	###new
+        beq $t2, $zero, gridFail
+        beq $t0, $zero, gridChecked
+        bne $t2, $t0, moveGridArray
+        j moveUserArray
+moveGridArray:	
+	addi $t3, $t3, 1
+	j wordGridCheck
+moveUserArray:
+	addi $t1, $t1, 1
+	move $t3, $zero
+	j wordGridCheck
+gridFail:
+	lb $t4, keyLetter		###new
+	beq $t0, $t4, moveUserArray	###new
+	j invalidWord
+gridChecked:
+	add $t0, $zero, $zero
+    	add $t1, $zero, $zero
+    	add $t2, $zero, $zero
+    	add $t3, $zero, $zero
+    	add $t4, $zero, $zero
+    	add $t5, $zero, $zero  	
 							
 checkWordDictionary:
 	li $v0, 4
