@@ -303,7 +303,7 @@ userInputFunction:
  	 lb $t0, userInput($zero)
  	 lb $t1, zeroString($zero)		#this checks if the user entered 0 when asked for a word
  	 lb $t2, userInput($t3)			#ends the game
- 	 bne $t2, $zero, validateUserInput
+ 	 #bne $t2, $zero, validateUserInput
  	 beq $t0, $t1, gameEnd
  	 
 validateUserInput:
