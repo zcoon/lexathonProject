@@ -259,8 +259,14 @@ printGameGridHalf:
      	##################### -increment timer
      	##################### -write word to duplicate file
      	##################### -increment score
+	##################### jump back up to the userInput function
      	
+	##################### if the word is invalid
+	##################### -let user know? with output
+	##################### -jump back up to the userInput function
      	
+	##################### if the timer ends, the game has to end
+ 	
      	j inputPrompt		#this sends you back to the prompt, where you can exit or start a new game
      	
 ###################################################  end of main  ##################################################### 
