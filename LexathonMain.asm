@@ -269,22 +269,21 @@ validateUserInput:
      	##################### jump to the check file, to determine if the word is valid
      	
      	##################### if the word is valid
-     	#jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
+     	
 	
 validUserInput:
-     	jal incrementScore
+	jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
+     	j incrementScore
 invalidInput:
 	li $v0, 4
 	la $a0, inputBad
 	syscall
 	
-	j userInputFunction
+	j userInputFunction	#this sends you back to the prompt, where you can exit or start a new game
 
 	##################### -jump back up to the userInput function
      	
-	##################### if the timer ends, the game has to end
- 	
-     	j inputPrompt		#this sends you back to the prompt, where you can exit or start a new game
+	##################### if the timer ends, the game has to end		
      	
 ###################################################  end of main  ##################################################### 
 	
