@@ -54,7 +54,7 @@
 	letterY: .byte 'y'
 	letterZ: .byte 'z'
 	
-	duplicateFile: .asciiz "/Users/juangarcia/duplicateFile.txt"
+	duplicateFile: .asciiz "/duplicateFile.txt"
 .text
 startScreen:	
 
