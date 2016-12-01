@@ -256,7 +256,7 @@ printGameGridHalf:
 	
 userInputFunction:
 	li $v0, 4 
-	la $a0, promptUserInput
+	la $a0, promptUser
 	syscall
 
 	 li $v0, 8
