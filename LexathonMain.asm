@@ -26,7 +26,7 @@
 	gridWord: 		.space 8
 	keyLetter:		.space 1
 	userScore:		.word 0
-	
+	userInput:		.space 9
 	letterA: .byte 'a'
 	letterB: .byte 'b'
 	letterC: .byte 'c'
@@ -173,7 +173,7 @@ printGameGrid:
      	syscall
      	
     #######key letter######
-    j keyGenerator
+   	j keyGenerator
  printKeyLetter:
      	li $v0, 11
      	lb $a0, keyLetter		
@@ -253,18 +253,31 @@ printGameGridHalf:
      	syscall
      	
      	#################### timer function can go here, start the timer
-     	
-     	##################### userInput function goes here, getting the word
-     	
+	
+userInputFunction:
+	li $v0, 4 
+	la $a0, promptUserInput
+	syscall
+
+	 li $v0, 8
+ 	 la $a0, userInput
+ 	 li $a1, 500
+ 	 syscall
+validateUserInput:
+	j checkKey
+	
      	##################### jump to the check file, to determine if the word is valid
      	
      	##################### if the word is valid
      	#jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
      	jal incrementScore
-	##################### jump back up to the userInput function
-     	
-	##################### if the word is invalid
-	##################### -let user know? with output
+invalidInput:
+	li $v0, 4
+	la $a0, inputBad
+	syscall
+	
+	j userInputFunction
+
 	##################### -jump back up to the userInput function
      	
 	##################### if the timer ends, the game has to end
