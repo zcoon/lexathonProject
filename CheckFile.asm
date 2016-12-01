@@ -316,7 +316,8 @@ validateUserInput:
 	
 validUserInput:
 	jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
-     	j incrementScore
+     	jal incrementScore
+     	j userInputFunction
 invalidInput:
 	li $v0, 4
 	la $a0, inputBad
@@ -339,7 +340,12 @@ badInput:
 gameEnd:
 	li $v0, 4
 	la $a0, scoreMessage
-
+	syscall
+	
+	li $v0, 1
+	lw $a0, userScore
+	syscall
+	
 	li $v0, 10
 	syscall
 keyGenerator:
@@ -605,12 +611,9 @@ check9:
 doneCheck:
     	syscall			#word is appened to the file
     	
-    	li $v0, 15
-    	la $a1, newline		#with a newline after it
-    	li $a2, 1  
-    	syscall
-
-    	li $v0, 16  # $a0 already has the file descriptor. Closes the file 	
+    	li $v0, 16  # $a0 already has the file descriptor. Closes the file 
+    	
+    	jr $ra	
 endWriteWordToDuplicateFile:
 
 incrementScore:
@@ -618,7 +621,7 @@ incrementScore:
      addi $t0, $t0, 1
      sw $t0, userScore
 
-     j userInputFunction
+     jr $ra
 
 Checks:
 	add $v0, $zero, $zero
