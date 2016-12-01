@@ -258,8 +258,8 @@ printGameGridHalf:
      	##################### jump to the check file, to determine if the word is valid
      	
      	##################### if the word is valid
-     	jal writeWordToDuplicateFile
-     	##################### -increment score
+     	#jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
+     	jal incrementScore
 	##################### jump back up to the userInput function
      	
 	##################### if the word is invalid
@@ -554,3 +554,10 @@ doneCheck:
 
     	li $v0, 16  # $a0 already has the file descriptor. Closes the file 	
 endWriteWordToDuplicateFile:
+
+incrementUserScore:
+     lw $t0, userScore
+     addi $t0, $t0, 1
+     sw $t0, userScore
+
+     jr $ra
