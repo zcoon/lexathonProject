@@ -73,6 +73,8 @@ lengthLoop:
 wordGridCheck: 
 	lb $t0, userWord($t1)
         lb $t2, gridArray($t3)
+	bgt $t0, 90, invalidWord
+	blt $t0, 33, invalidWord
         beq $t2, $t4, gridFail
         beq $t0, $t4, gridChecked
         bne $t2, $t0, moveGridArray
@@ -1795,5 +1797,8 @@ validWord:
 	#will jump back to the correct label in main here
 	li $v0, 4				#This will be taken out
 	la $a0, validWordMessage		#This will be taken out
-	syscall					#This will be taken out
+	syscall	
+	
+	j validUserInput			#This will be taken out
 done:						#This will be taken out
+	j userInputFucntion
