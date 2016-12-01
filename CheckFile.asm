@@ -361,12 +361,23 @@ gameEnd:
 	la $a0, scoreMessage
 	syscall
 	
-	li $v0, 1
-	lw $a0, userScore
+	li $v0, 4
+	la $a0, gameOver   #prints game over screen
 	syscall
 	
-	li $v0, 10
+	li $v0, 4 
+	la $a0, playAgainMessage   #ask user to play agin
 	syscall
+	
+	li $v0, 8   #takes input
+	syscall
+	
+	move $t0, $zero
+	beq $v0, startScreen
+	beq $v0, $zero, gameEnd   #logic to start game over or quit
+     	bne $v0, $t0, badInput
+	
+	j startScreen
 keyGenerator:
 	li   $v0, 41       	# get a random int
 	syscall
