@@ -270,6 +270,8 @@ validateUserInput:
      	
      	##################### if the word is valid
      	#jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
+	
+validUserInput:
      	jal incrementScore
 invalidInput:
 	li $v0, 4
