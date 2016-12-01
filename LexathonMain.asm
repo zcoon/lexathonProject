@@ -245,13 +245,25 @@ printGameGridHalf:
      	
      	la $a0, newline
      	syscall
-     	
+ 	
      	la $a0, gridPrintRow
      	syscall
      	
-     	j inputPrompt
+     	#################### timer function can go here, start the timer
      	
-##########################################################################################  end of main
+     	##################### userInput function goes here, getting the word
+     	
+     	##################### jump to the check file, to determine if the word is valid
+     	
+     	##################### if the word is valid
+     	##################### -increment timer
+     	##################### -write word to duplicate file
+     	##################### -increment score
+     	
+     	
+     	j inputPrompt		#this sends you back to the prompt, where you can exit or start a new game
+     	
+###################################################  end of main  ##################################################### 
 	
 badInput:
 	li $v0, 4
