@@ -1782,23 +1782,22 @@ Zend:			# Close the file
 	 
 goBack:
 	jr $ra
-endCheckWordDictionary:		#returns 1 in $v1 if word exixts in dictionary, else returns 0
+endCheckWordDictionary:		
 	add $t0, $zero, $zero
 	beq $v1, $t0, invalidWord 
 	
 	j validWord
 invalidWord:
 	#will jump back to the correct label in main here
-	li $v0, 4				#This will be taken out
-	la $a0, invalidWordMessage		#This will be taken out
-	syscall					#This will be taken out
-	j done					#This will be taken out
+	li $v0, 4				
+	la $a0, invalidWordMessage		
+	syscall					
+	j userInputFunction			
 validWord:
 	#will jump back to the correct label in main here
-	li $v0, 4				#This will be taken out
-	la $a0, validWordMessage		#This will be taken out
+	li $v0, 4				
+	la $a0, validWordMessage		
 	syscall	
 	
-	j validUserInput			#This will be taken out
-done:						#This will be taken out
-	j userInputFucntion
+	j validUserInput			
+
