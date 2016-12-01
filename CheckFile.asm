@@ -638,6 +638,8 @@ Checks:
 	add $t8, $zero, $zero
 	add $s1, $zero, $zero
 	add $s2, $zero, $zero
+	
+	lb $t4, keyLetter 			#### grid check starts here
 wordGridCheck:	
 	lb $t0, userInput($t1)
         lb $t2, gridWord($t3)
@@ -646,17 +648,17 @@ wordGridCheck:
         bne $t2, $t0, moveGridArray
         j moveUserArray
 moveGridArray:	
-	lb $t4, keyLetter 
-	beq $t2, $t4, moveUserArray
 	addi $t3, $t3, 1
 	j wordGridCheck
 moveUserArray:
 	addi $t1, $t1, 1
-	move $t3, $0
+	move $t3, $zero
 	j wordGridCheck
 gridFail: 
+	beq $t0, $t4, moveUserArray
 	j invalidWord
-gridChecked:			# word is made of letters from the grid
+gridChecked:					##### grid check ends here
+	
 	add $t0, $zero, $zero
     	add $t1, $zero, $zero
     	add $t2, $zero, $zero
@@ -698,13 +700,12 @@ checkWordDictionary:
 	la $a0, dictionaryCheck
 	syscall
 	
+	lw $a3, wordLength($0)
 	la $a0, userInput		#word
 	la $a1, alphabet
-	lw $a3, wordLength($0)
-
 	lb $t0, 0($a0)		
-	
-	lb $t1, 0($a1)		
+	lb $t1, 0($a1)	
+		
 	bne $t0, $t1, bWords
 ##########################################################		file	begin	
 	#open a file for writing
@@ -2371,3 +2372,5 @@ validWord:
 	add $s2, $zero, $zero
 	
 	j validUserInput	
+	
+
