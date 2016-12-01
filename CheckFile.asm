@@ -9,6 +9,8 @@
 	beginGame: 		.asciiz "Enter 1 to begin the game or 0 to quit!"
 	newline: 		.asciiz "\n"
 	newSpace:		.asciiz " "
+	clear:			.asciiz ""
+	
 	gameOver:		.asciiz "\n**************************************** GAME  OVER!! *************************************\n"
 	scoreMessage:		.asciiz "\nTotal score: "
 	missedWordsNumber:	.asciiz "Total number of missed words: "
@@ -57,8 +59,8 @@
 	duplicateFile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/duplicateFile.txt"
 	
 	wordLength:		.word 0
-	validWordMessage: 	.asciiz "Valid word"		#This will be taken out
-	invalidWordMessage:	.asciiz "Invalid word"		#This will be taken out
+	validWordMessage: 	.asciiz "Valid word"		
+	invalidWordMessage:	.asciiz "Invalid word"		
 	
 	buffer: 		.space 2000000
 	fileword: .space 30
@@ -288,6 +290,23 @@ printGameGridHalf:
      	syscall
      	
      	#################### timer function can go here, start the timer
+	
+cleanDuplicateFile:
+	li $v0, 13
+    	la $a0, duplicateFile
+   	li $a1, 1
+   	li $a2, 0
+   	syscall  # File descriptor gets returned in $v0
+
+    	move $a0, $v0  # Syscall 15 requires file descriptor in $a0
+    	li $v0, 15
+    	la $a1, clear
+    	li $a2, 0  
+    	syscall
+
+    	li $v0, 16  # $a0 already has the file descriptor
+    	syscall
+endClean:
 	
 userInputFunction:
 	li $v0, 4 
@@ -687,7 +706,20 @@ gridChecked:
     	add $t3, $zero, $zero
     	add $t4, $zero, $zero
     	add $t5, $zero, $zero  	
-							
+	
+	lb $t0, keyLetter 	
+keyLoop:
+        lb $t1, userInput($t2)
+        addi $t2, $t2, 1
+        beq $t1, $zero, invalidWord	#null check
+        beq $t1, $t0, keyDone		#key check
+        j keyLoop
+keyDone:
+	add $t0, $zero, $zero
+	add $t1, $zero, $zero
+	add $t2, $zero, $zero
+	add $t3, $zero, $zero						
+																			
 checkWordDictionary:
 	li $v0, 4
 	la $a0, dictionaryCheck
