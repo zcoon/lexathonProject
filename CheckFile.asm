@@ -373,7 +373,7 @@ gameEnd:
 	syscall
 	
 	move $t0, $zero
-	beq $v0, startScreen
+	beq $v0, 1, startScreen
 	beq $v0, $zero, programEnd   #logic to start game over or quit
      	bne $v0, $t0, badInput
 	
