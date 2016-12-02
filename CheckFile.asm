@@ -29,6 +29,15 @@
 	userScore:		.word 0
 	userInput:		.space 9
 	zeroString:		.asciiz "0"
+	
+	displayTime: .asciiz "Time remaining: "
+	timeRemaining:.word 60 #reset each game!!!
+	currentTime: .word 0
+	gameTime: .word 0
+	#remainingTime: .word 0
+	youHaveTimeLeft: .asciiz "You have time left!"
+	timeHasRunOutMessage: .asciiz "You don't have time left!"
+	
 	letterA: .byte 'a'
 	letterB: .byte 'b'
 	letterC: .byte 'c'
@@ -65,7 +74,7 @@
 	buffer: 		.space 2000000
 	fileword: .space 30
 	alphabet: .asciiz "abcdefghijklmnopqrstuvwxyz"
-	Afile: .asciiz "words/awords.txt"      # filename for input
+	Afile: .asciiz "words/awords1.txt"      # filename for input
 	Bfile: .asciiz "words/bwords.txt"      # filename for input
 	Cfile: .asciiz "words/cwords.txt"      # filename for input
 	Dfile: .asciiz "words/dwords.txt"      # filename for input
@@ -290,7 +299,12 @@ printGameGridHalf:
      	la $a0, gridPrintRow
      	syscall
      	
-     	#################### timer function can go here, start the timer
+     	#################### timer function can go here, start the timer ###### I think this needs to go in the start screen subroutine
+     	jal getTimeCurrent  # Get the current time. It returns a value in number like 268502184, 
+	sw $v0, currentTime # which is the seconds since the universally accepted start time for computers
+	
+	li $t0, 60          # Put the value 60 in $t0
+	sw $t0, timeRemaining # The contents of $t0 is stored in t0, so timeRemaining = 60
 	
 cleanDuplicateFile:
 	li $v0, 13
@@ -310,6 +324,23 @@ cleanDuplicateFile:
 endClean:
 	
 userInputFunction:
+
+	#jal getTimeElapsed
+	#lw $t1, timeRemaining #Load the timeRemaining value onto $t1 
+	#sub $v0, $t1, $v0     # Subtract the timeRemaining from the difference between now and startTime
+	
+	#sw $v0, timeRemaining #Store the result of that calculation in timeRemaining
+	
+	#li $v0, 4
+	#la $a0, displayTime
+	#syscall
+	
+	#li $v0, 1
+	#la $a0, timeRemaining
+	#syscall
+	
+	###### Franco Input
+	
 	li $v0, 4 
 	la $a0, promptUser
 	syscall
@@ -383,6 +414,30 @@ gameEnd:
      	bne $v0, $t0, badInput
 	
 	j startScreen
+
+######### Timer functions ########
+
+getTimeCurrent:
+	li $v0, 30				#Syscall 30 to get systime in ms
+	syscall					#Now $a0 has lower 32 bits of system time
+	
+	li $t0, 1000			#This converts system time from milliseconds to seconds
+	div $a0, $t0			#Lo will now hold the seconds value
+	mflo $v0			#Return the seconds
+	jr $ra	
+	
+getTimeElapsed:					#parameter is $a1 (start)
+	lw $a1, currentTime
+	addi $sp, $sp, -8
+	sw $ra, ($sp)
+	sw $a1, 4($sp)
+	jal getTimeCurrent			#find currentTime, and put it on $v0
+	lw $t0, 4($sp)				#load startTime onto $t0
+	lw $ra, ($sp)
+	addi $sp, $sp, 8
+	sub $v0, $v0, $t0			#Calculate difference in time and return it on $v0
+	jr $ra
+	
 programEnd:
 	li $v0, 10
 	syscall

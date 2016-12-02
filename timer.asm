@@ -49,12 +49,12 @@ getTimeElapsed:					#parameter is $a1 (start)
 	lw $a1, currentTime
 	addi $sp, $sp, -8
 	sw $ra, ($sp)
-	sw $a1, 4($sp)
+	sw $a1, 4($sp)      #Store $a1 = currentTime at 4($sp)
 	jal getTimeCurrent			#find currentTime, and put it on $v0
 	lw $t0, 4($sp)				#load startTime onto $t0
 	lw $ra, ($sp)
 	addi $sp, $sp, 8
-	sub $v0, $v0, $t0			#Calculate difference in time and return it on $v0
+	sub $v0, $v0, $t0			#Calculate difference in time from jalGetTimeCurrent and startTime and return it on $v0
 	jr $ra
 
 	
