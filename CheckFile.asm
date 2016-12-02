@@ -56,7 +56,7 @@
 	letterY: .byte 'y'
 	letterZ: .byte 'z'
 	
-	duplicateFile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/duplicateFile.txt"
+	duplicateFile: .asciiz "/duplicateFile.txt"
 	
 	wordLength:		.word 0
 	validWordMessage: 	.asciiz "Valid word"		
@@ -65,32 +65,32 @@
 	buffer: 		.space 2000000
 	fileword: .space 30
 	alphabet: .asciiz "abcdefghijklmnopqrstuvwxyz"
-	Afile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/awords.txt"      # filename for input
-	Bfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/bwords.txt"      # filename for input
-	Cfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/cwords.txt"      # filename for input
-	Dfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/dwords.txt"      # filename for input
-	Efile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/ewords.txt"      # filename for input
-	Ffile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/fwords.txt"      # filename for input
-	Gfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/gwords.txt"      # filename for input
-	Hfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/hwords.txt"      # filename for input
-	Ifile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/iwords.txt"      # filename for input
-	Jfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/jwords.txt"      # filename for input
-	Kfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/kwords.txt"      # filename for input
-	Lfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/lwords.txt"      # filename for input
-	Mfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/mwords.txt"      # filename for input
-	Nfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/nwords.txt"      # filename for input
-	Ofile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/owords.txt"      # filename for input
-	Pfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/pwords.txt"      # filename for input
-	Qfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/qwords.txt"      # filename for input
-	Rfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/rwords.txt"      # filename for input
-	Sfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/swords.txt"      # filename for input
-	Tfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/twords.txt"      # filename for input
-	Ufile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/uwords.txt"      # filename for input
-	Vfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/vwords.txt"      # filename for input
-	Wfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/wwords.txt"      # filename for input
-	Xfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/xwords.txt"      # filename for input
-	Yfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/ywords.txt"      # filename for input
-	Zfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/zwords.txt"      # filename for input
+	Afile: .asciiz "/words/awords.txt"      # filename for input
+	Bfile: .asciiz "/words/bwords.txt"      # filename for input
+	Cfile: .asciiz "/words/cwords.txt"      # filename for input
+	Dfile: .asciiz "/words/dwords.txt"      # filename for input
+	Efile: .asciiz "/words/ewords.txt"      # filename for input
+	Ffile: .asciiz "/words/fwords.txt"      # filename for input
+	Gfile: .asciiz "/words/gwords.txt"      # filename for input
+	Hfile: .asciiz "/words/hwords.txt"      # filename for input
+	Ifile: .asciiz "/words/iwords.txt"      # filename for input
+	Jfile: .asciiz "/words/jwords.txt"      # filename for input
+	Kfile: .asciiz "/words/kwords.txt"      # filename for input
+	Lfile: .asciiz "/words/lwords.txt"      # filename for input
+	Mfile: .asciiz "/words/mwords.txt"      # filename for input
+	Nfile: .asciiz "/words/nwords.txt"      # filename for input
+	Ofile: .asciiz "/words/owords.txt"      # filename for input
+	Pfile: .asciiz "/words/pwords.txt"      # filename for input
+	Qfile: .asciiz "/words/qwords.txt"      # filename for input
+	Rfile: .asciiz "/words/rwords.txt"      # filename for input
+	Sfile: .asciiz "/words/swords.txt"      # filename for input
+	Tfile: .asciiz "/words/twords.txt"      # filename for input
+	Ufile: .asciiz "/words/uwords.txt"      # filename for input
+	Vfile: .asciiz "/words/vwords.txt"      # filename for input
+	Wfile: .asciiz "/words/wwords.txt"      # filename for input
+	Xfile: .asciiz "/words/xwords.txt"      # filename for input
+	Yfile: .asciiz "/words/ywords.txt"      # filename for input
+	Zfile: .asciiz "/words/zwords.txt"      # filename for input
 	dictionaryCheck: .asciiz "Checking the dictionary!\n"
 .text
 startScreen:	
