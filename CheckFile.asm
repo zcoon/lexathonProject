@@ -94,6 +94,7 @@
 	dictionaryCheck: .asciiz "Checking the dictionary!\n"
 .text
 startScreen:	
+	sw $0, userScore
 
 	li $v0, 4
      	la $a0, gameObjective
@@ -128,7 +129,7 @@ inputPrompt:
      	
      	addi $t0, $zero, 1
      	
-     	beq $v0, $zero, gameEnd
+     	beq $v0, $zero, programEnd
      	bne $v0, $t0, badInput
      	add $t0, $zero, $zero 
      	
@@ -361,6 +362,10 @@ gameEnd:
 	la $a0, scoreMessage
 	syscall
 	
+	li $v0, 1
+	lw $a0, userScore
+	syscall
+	
 	li $v0, 4
 	la $a0, gameOver   #prints game over screen
 	syscall
@@ -369,7 +374,7 @@ gameEnd:
 	la $a0, playAgainMessage   #ask user to play agin
 	syscall
 	
-	li $v0, 8   #takes input
+	li $v0, 5   #takes input
 	syscall
 	
 	move $t0, $zero
