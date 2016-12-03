@@ -362,39 +362,77 @@ userInputFunction:
  	 beq $t0, $t1, gameEnd
 
 inputTimer:
+
+     move $t1, $v1    # v1 always holds 1
+     beq $t1, 1, setTimeSubReg    #temp reg need to pass 
+
        li $v0, 30
        syscall    #startTime/1000 = seconds   ---- )   subtraction register
 	                #now $a0 has lower 32 bits of system time
 
     li $t0, 1000            #convert system time from milliseconds to seconds
     div $a0, $t0            #lo holds seconds
-    mflo $v0                #return seconds
-    move $s5, $v0
+    mflo $v0                # $v0 = seconds 
+    move $s5, $v0           # Set $s5 = $v0
 
     # div $s5, $v0, 1000  # Get the time in seconds
     
     #Printing hold time
     li $v0, 4
-    la $a0, printHoldTime
+    la $a0, printHoldTime  #Prints "Hold time is : "
     syscall
     
      sw $s5, holdTime 	 # Store the seconds value in holdTime
      
      li $v0, 1
-     move $a0, $s5 
+     move $a0, $s5    # Prints value in $s5
      syscall
      
      li $v0, 4
      la $a0, newline
      syscall
 
-     move $t1, $v1    # v1 always holds 1
-
-     beq $t1, 1, setTimeSubReg    #temp reg need to pass 
      j Checks
      subTime:
           
           lw $s5, holdTime        # load the holdTime 
+          
+          li $v0, 4
+     	la $a0, printRemainingTime # Prints "Remaining time is :"
+     	syscall
+
+	   li $v0, 1
+	   lw $a0, remainingTime   # Actually prints value of remainingTime
+	   syscall
+	   
+	   li $v0, 4
+	   la $a0, newline 	#newline
+	   syscall
+	   
+	    li $v0, 4
+     	    la $a0, prints5       # Prints "$s5 Value is :"
+     	    syscall
+	   
+	   li $v0, 1
+	   move $a0, $s5	#actually prints value of $s5
+	   syscall
+	   
+	   li $v0, 4
+	   la $a0, newline
+	   syscall
+	   
+	    li $v0, 4
+     	    la $a0, prints6	# Prints "$s6 Value is :"
+    	    syscall
+	   
+	   li $v0, 1
+	   move $a0, $s6         #Actually prints value of $s6
+	   syscall
+	   
+	   li $v0, 4
+	   la $a0, newline
+	   syscall
+          
 	 # div $s6, $s6, 1000      # Divide the last called system by 1000 to get it in seconds
 
            sub $s3, $s6, $s5 #remaining time - substraction time = remaining time = $s3
@@ -404,41 +442,7 @@ inputTimer:
            
            bltz $t2, gameEnd
            
-            li $v0, 4
-     la $a0, printRemainingTime
-     syscall
-
-	   li $v0, 1
-	   lw $a0, remainingTime
-	   syscall
-	   
-	   li $v0, 4
-	   la $a0, newline
-	   syscall
-	   
-	    li $v0, 4
-     	la $a0, prints5
-     	syscall
-	   
-	   li $v0, 1
-	   move $a0, $s5
-	   syscall
-	   
-	    li $v0, 4
-	   la $a0, newline
-	   syscall
-	   
-	    li $v0, 4
-     la $a0, prints6
-     syscall
-	   
-	   li $v0, 1
-	   move $a0, $s6
-	   syscall
-	   
-	    li $v0, 4
-	   la $a0, newline
-	   syscall
+        
 	   
 
            j Checks
@@ -448,7 +452,7 @@ inputTimer:
                
                li $t0, 1000            #convert system time from milliseconds to seconds
     	       div $a0, $t0            #lo holds seconds
-    		mflo $v0     
+    	       mflo $v0     
 
                move $s6, $v0    # Move the system time onto $s6
                j subTime
