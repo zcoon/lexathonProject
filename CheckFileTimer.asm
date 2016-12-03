@@ -109,7 +109,12 @@
 	duplicateString: 	.space 200
 	duplicateStringEnd:	.word 0
 .text
-startScreen:	
+startScreen:
+
+
+	add $t1, $0, $0
+	addi $t1, $t1, 60
+	sw $t1, remainingTime
 	sw $0, userScore
 	lw $s4, remainingTime  #remaining time = 60 to start
 
@@ -378,15 +383,15 @@ inputTimer:
     # div $s5, $v0, 1000  # Get the time in seconds
     
     #Printing hold time
-    li $v0, 4
-    la $a0, printHoldTime  #Prints "Hold time is : "
-    syscall
+  #  li $v0, 4
+  #  la $a0, printHoldTime  #Prints "Hold time is : "
+  #  syscall
     
      sw $s5, holdTime 	 # Store the seconds value in holdTime
      
-     li $v0, 1
-     move $a0, $s5    # Prints value in $s5
-     syscall
+  #   li $v0, 1
+  #   move $a0, $s5    # Prints value in $s5
+  #   syscall
      
      li $v0, 4
      la $a0, newline
@@ -409,25 +414,25 @@ inputTimer:
 	   la $a0, newline 	#newline
 	   syscall
 	   
-	    li $v0, 4
-     	    la $a0, prints5       # Prints "$s5 Value is :"
-     	    syscall
+	#    li $v0, 4
+     	#    la $a0, prints5       # Prints "$s5 Value is :"
+     	#    syscall
 	   
-	   li $v0, 1
-	   move $a0, $s5	#actually prints value of $s5
-	   syscall
+	#   li $v0, 1
+	#   move $a0, $s5	#actually prints value of $s5
+	#   syscall
 	   
-	   li $v0, 4
-	   la $a0, newline
-	   syscall
+	 #  li $v0, 4
+	 #  la $a0, newline
+	 #  syscall
 	   
-	    li $v0, 4
-     	    la $a0, prints6	# Prints "$s6 Value is :"
-    	    syscall
+	 #   li $v0, 4
+     	 #   la $a0, prints6	# Prints "$s6 Value is :"
+    	 #   syscall
 	   
-	   li $v0, 1
-	   move $a0, $s6         #Actually prints value of $s6
-	   syscall
+	 #  li $v0, 1
+	 #  move $a0, $s6         #Actually prints value of $s6
+	 #  syscall
 	   
 	   li $v0, 4
 	   la $a0, newline
