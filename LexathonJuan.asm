@@ -35,7 +35,7 @@
 	timeRemaining: .word 0 #reset each game!!!
 	currentTime: .word 0
 	gameTime: .word 0
-	remainingTime: .word 20
+	remainingTime: .word 60
 	youHaveTimeLeft: .asciiz "You have time left!"
 	timeHasRunOutMessage: .asciiz "You don't have time left!"
 	timeInvalidMessage: .asciiz "You ran out of time, give me your green card!"
