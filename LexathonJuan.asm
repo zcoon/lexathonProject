@@ -9,6 +9,8 @@
 	beginGame: 		.asciiz "Enter 1 to begin the game or 0 to quit!"
 	newline: 		.asciiz "\n"
 	newSpace:		.asciiz " "
+	clear:			.asciiz ""
+	
 	gameOver:		.asciiz "\n**************************************** GAME  OVER!! *************************************\n"
 	scoreMessage:		.asciiz "\nTotal score: "
 	missedWordsNumber:	.asciiz "Total number of missed words: "
@@ -25,7 +27,19 @@
 	gridWord: 		.space 8
 	keyLetter:		.space 1
 	userScore:		.word 0
-	userInput:		.space 9
+	userInput:		.space 20
+	zeroString:		.asciiz "0"
+	
+	startTime: .word 0
+	displayTime: .asciiz "Time remaining: "
+	timeRemaining: .word 0 #reset each game!!!
+	currentTime: .word 0
+	gameTime: .word 0
+	remainingTime: .word 60
+	youHaveTimeLeft: .asciiz "You have time left!"
+	timeHasRunOutMessage: .asciiz "You don't have time left!"
+	timeInvalidMessage: .asciiz "You ran out of time, give me your green card!"
+	
 	letterA: .byte 'a'
 	letterB: .byte 'b'
 	letterC: .byte 'c'
@@ -53,44 +67,49 @@
 	letterY: .byte 'y'
 	letterZ: .byte 'z'
 	
-	duplicateFile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/duplicateFile.txt"
-	
 	wordLength:		.word 0
-	validWordMessage: 	.asciiz "Valid word"		#This will be taken out
-	invalidWordMessage:	.asciiz "Invalid word"		#This will be taken out
+	validWordMessage: 	.asciiz "Valid word"		
+	invalidWordMessage:	.asciiz "Invalid word"		
 	
 	buffer: 		.space 2000000
 	fileword: .space 30
 	alphabet: .asciiz "abcdefghijklmnopqrstuvwxyz"
-	Afile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/awords.txt"      # filename for input
-	Bfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/bwords.txt"      # filename for input
-	Cfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/cwords.txt"      # filename for input
-	Dfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/dwords.txt"      # filename for input
-	Efile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/ewords.txt"      # filename for input
-	Ffile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/fwords.txt"      # filename for input
-	Gfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/gwords.txt"      # filename for input
-	Hfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/hwords.txt"      # filename for input
-	Ifile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/iwords.txt"      # filename for input
-	Jfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/jwords.txt"      # filename for input
-	Kfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/kwords.txt"      # filename for input
-	Lfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/lwords.txt"      # filename for input
-	Mfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/mwords.txt"      # filename for input
-	Nfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/nwords.txt"      # filename for input
-	Ofile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/owords.txt"      # filename for input
-	Pfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/pwords.txt"      # filename for input
-	Qfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/qwords.txt"      # filename for input
-	Rfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/rwords.txt"      # filename for input
-	Sfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/swords.txt"      # filename for input
-	Tfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/twords.txt"      # filename for input
-	Ufile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/uwords.txt"      # filename for input
-	Vfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/vwords.txt"      # filename for input
-	Wfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/wwords.txt"      # filename for input
-	Xfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/xwords.txt"      # filename for input
-	Yfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/ywords.txt"      # filename for input
-	Zfile: .asciiz "/Users/juangarcia/Desktop/School/CA/lexathonProject-master/words/zwords.txt"      # filename for input
+	Afile: .asciiz "words/awords.txt"      # filename for input
+	Bfile: .asciiz "words/bwords.txt"      # filename for input
+	Cfile: .asciiz "words/cwords.txt"      # filename for input
+	Dfile: .asciiz "words/dwords.txt"      # filename for input
+	Efile: .asciiz "words/ewords.txt"      # filename for input
+	Ffile: .asciiz "words/fwords.txt"      # filename for input
+	Gfile: .asciiz "words/gwords.txt"      # filename for input
+	Hfile: .asciiz "words/hwords.txt"      # filename for input
+	Ifile: .asciiz "words/iwords.txt"      # filename for input
+	Jfile: .asciiz "words/jwords.txt"      # filename for input
+	Kfile: .asciiz "words/kwords.txt"      # filename for input
+	Lfile: .asciiz "words/lwords.txt"      # filename for input
+	Mfile: .asciiz "words/mwords.txt"      # filename for input
+	Nfile: .asciiz "words/nwords.txt"      # filename for input
+	Ofile: .asciiz "words/owords.txt"      # filename for input
+	Pfile: .asciiz "words/pwords.txt"      # filename for input
+	Qfile: .asciiz "words/qwords.txt"      # filename for input
+	Rfile: .asciiz "words/rwords.txt"      # filename for input
+	Sfile: .asciiz "words/swords.txt"      # filename for input
+	Tfile: .asciiz "words/twords.txt"      # filename for input
+	Ufile: .asciiz "words/uwords.txt"      # filename for input
+	Vfile: .asciiz "words/vwords.txt"      # filename for input
+	Wfile: .asciiz "words/wwords.txt"      # filename for input
+	Xfile: .asciiz "words/xwords.txt"      # filename for input
+	Yfile: .asciiz "words/ywords.txt"      # filename for input
+	Zfile: .asciiz "words/zwords.txt"      # filename for input
+	dictionaryCheck: .asciiz "Checking the dictionary!\n"
+	
+	duplicateString: 	.space 200
+	duplicateStringEnd:	.word 0
 .text
 startScreen:	
-
+	sw $0, userScore
+	
+	jal storeStartTime
+	
 	li $v0, 4
      	la $a0, gameObjective
      	syscall   
@@ -124,7 +143,7 @@ inputPrompt:
      	
      	addi $t0, $zero, 1
      	
-     	beq $v0, $zero, gameEnd
+     	beq $v0, $zero, programEnd
      	bne $v0, $t0, badInput
      	add $t0, $zero, $zero 
      	
@@ -285,9 +304,72 @@ printGameGridHalf:
      	la $a0, gridPrintRow
      	syscall
      	
-     	#################### timer function can go here, start the timer
+clearDuplicateString:
+	li $t2, 0
+	lw $t0, duplicateStringEnd
+	lb $t1, clear
+clearLoop:	
+	sb $t1, duplicateString($t2)
+	addi $t2, $t2, 1
+	bgt $t2, $t0, endClearDuplicateString 
+	j clearLoop
+endClearDuplicateString:
+	sw $0, duplicateStringEnd
 	
 userInputFunction:
+
+checkTime: 	 
+ 	 li $v0, 30				#Syscall 30 to get systime in ms
+	syscall					#Now $a0 has lower 32 bits of system time
+	
+	li $t0, 1000			#This converts system time from milliseconds to seconds
+	div $a0, $t0			#Lo will now hold the seconds value
+	mflo $t0			#Return the seconds
+	
+	lw $t1, startTime
+	sub $t0, $t0, $t1
+	lw $t1, remainingTime
+	sub $t0, $t1, $t0
+	
+	bgt $t0, 0, timeValid 
+timeInvalid:	
+	li $v0, 4
+	la $a0, newline
+	syscall
+	
+	li $v0, 4
+	la $a0, timeInvalidMessage
+	syscall
+	j gameEnd
+timeValid:	
+	li $v0, 4
+	la $a0, newline
+	syscall
+	
+	li $v0, 4
+	la $a0, displayTime
+	syscall
+	
+	li $v0, 1
+	add $a0, $0, $t0	#time left message
+	syscall
+	
+	#jal getTimeElapsed
+	#lw $t1, timeRemaining #Load the timeRemaining value onto $t1 
+	#sub $v0, $t1, $v0     # Subtract the timeRemaining from the difference between now and startTime
+	
+	#sw $v0, timeRemaining #Store the result of that calculation in timeRemaining
+	
+	#li $v0, 4
+	#la $a0, displayTime
+	#syscall
+	
+	#li $v0, 1
+	#la $a0, timeRemaining
+	#syscall
+	
+	###### Franco Input
+	
 	li $v0, 4 
 	la $a0, promptUser
 	syscall
@@ -296,11 +378,16 @@ userInputFunction:
  	 la $a0, userInput
  	 li $a1, 500
  	 syscall
-	 
-	 beq $v0, $zero, gameEnd   #check to see if user wants to quit
-	 
+ 	 
+ 	 addi $t3, $zero, 1
+ 	 lb $t0, userInput($zero)
+ 	 lb $t1, zeroString($zero)		#this checks if the user entered 0 when asked for a word
+ 	 lb $t2, userInput($t3)			#ends the game
+ 	 #bne $t2, $zero, validateUserInput
+ 	 beq $t0, $t1, gameEnd
+ 	 
 validateUserInput:
-	j checkKey
+	j Checks
 	
      	##################### jump to the check file, to determine if the word is valid
      	
@@ -308,8 +395,9 @@ validateUserInput:
      	
 	
 validUserInput:
-	jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
-     	j incrementScore
+	jal writeToDuplicateString		#causes main not to work becuase of the path name of the duplicate file
+     	jal incrementScore
+     	j userInputFunction
 invalidInput:
 	li $v0, 4
 	la $a0, inputBad
@@ -322,7 +410,18 @@ invalidInput:
 	##################### if the timer ends, the game has to end		
      	
 ###################################################  end of main  ##################################################### 
+storeStartTime:
+	li $v0, 30				#Syscall 30 to get systime in ms
+	syscall					#Now $a0 has lower 32 bits of system time
 	
+	li $t0, 1000			#This converts system time from milliseconds to seconds
+	div $a0, $t0			#Lo will now hold the seconds value
+	mflo $t0			#Return the seconds
+	
+	sw $t0, startTime
+	jr $ra
+endStoreStartTime:
+		
 badInput:
 	li $v0, 4
 	la $a0, inputBad
@@ -334,6 +433,10 @@ gameEnd:
 	la $a0, scoreMessage
 	syscall
 	
+	li $v0, 1
+	lw $a0, userScore
+	syscall
+	
 	li $v0, 4
 	la $a0, gameOver   #prints game over screen
 	syscall
@@ -342,15 +445,42 @@ gameEnd:
 	la $a0, playAgainMessage   #ask user to play agin
 	syscall
 	
-	li $v0, 8   #takes input
+	li $v0, 5   #takes input
 	syscall
 	
 	move $t0, $zero
-	beq $v0, startScreen
-	beq $v0, $zero, gameEnd   #logic to start game over or quit
+	beq $v0, 1, startScreen
+	beq $v0, $zero, programEnd   #logic to start game over or quit
      	bne $v0, $t0, badInput
 	
 	j startScreen
+
+######### Timer functions ########
+
+getTimeCurrent:
+	li $v0, 30				#Syscall 30 to get systime in ms
+	syscall					#Now $a0 has lower 32 bits of system time
+	
+	li $t0, 1000			#This converts system time from milliseconds to seconds
+	div $a0, $t0			#Lo will now hold the seconds value
+	mflo $v0			#Return the seconds
+	jr $ra	
+	
+getTimeElapsed:					#parameter is $a1 (start)
+	lw $a1, currentTime
+	addi $sp, $sp, -8
+	sw $ra, ($sp)
+	sw $a1, 4($sp)
+	jal getTimeCurrent			#find currentTime, and put it on $v0
+	lw $t0, 4($sp)				#load startTime onto $t0
+	lw $ra, ($sp)
+	addi $sp, $sp, 8
+	sub $v0, $v0, $t0			#Calculate difference in time and return it on $v0
+	jr $ra
+	
+programEnd:
+	li $v0, 10
+	syscall
 keyGenerator:
 	li   $v0, 41       	# get a random int
 	syscall
@@ -576,83 +706,33 @@ modValueTwentySix:
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 
-writeWordToDuplicateFile:
-do:    	lb $t2, userInput($t0)
-	beq $t2, $zero, endWhile     #calculates the length of myword and stores it in $t0	
-    	addi $t0, $t0, 1
-    	j do
-endWhile:		
+writeToDuplicateString:			##### new	for duplicates
+	lw $t0, wordLength
+	li $t1, 0			#word index
+	lw $t2, duplicateStringEnd 	#duplicate string index	
+   writeLoop:
+ 	lb $t3, userInput($t1)	
+	sb $t3, duplicateString($t2)
+	addi $t1, $t1, 1
+	addi $t2, $t2, 1
+	bne $t1, $t0, writeLoop
+   doneWrite:	
+	lb $t3, newSpace
+	sb $t3, duplicateString($t2)
+	addi $t2, $t2, 1
+	sw $t2, duplicateStringEnd	
 
-	li $v0, 13
-    	la $a0, duplicateFile	#open file for write/append
-   	li $a1, 9
-   	li $a2, 0
-   	syscall  # File descriptor gets returned in $v0
-
-    	move $a0, $v0  # Syscall 15 requires file descriptor in $a0
-    	li $v0, 15
-    	la $a1, userInput
-    	
-    	bne $t0, 4, check5
-    	li $a2, 4  
-    	j doneCheck
-check5: bne $t0, 5, check6
-    	li $a2, 5  
-    	j doneCheck
-check6: bne $t0, 6, check7	#These checks are necessary becuase writing to the file 
-    	li $a2, 6  		#requires the hardcoded length of the word to be written
-    	j doneCheck		#so we need to hardcode all 6 options
-check7: bne $t0, 7, check8
-    	li $a2, 7  
-    	j doneCheck
-check8: bne $t0, 8, check9
-    	li $a2, 8  
-    	j doneCheck
-check9: 
-    	li $a2, 9  
-    	
-doneCheck:
-    	syscall			#word is appened to the file
-    	
-    	li $v0, 15
-    	la $a1, newline		#with a newline after it
-    	li $a2, 1  
-    	syscall
-
-    	li $v0, 16  # $a0 already has the file descriptor. Closes the file 	
-endWriteWordToDuplicateFile:
+	jr $ra
+endWriteToDuplicateString:		##### new	for duplicates
 
 incrementScore:
      lw $t0, userScore
      addi $t0, $t0, 1
      sw $t0, userScore
 
-     j userInputFunction
+     jr $ra
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-checkKey:
+Checks:
 	add $v0, $zero, $zero
 	add $v1, $zero, $zero
 	add $a0, $zero, $zero
@@ -671,116 +751,92 @@ checkKey:
 	add $s1, $zero, $zero
 	add $s2, $zero, $zero
 	
+CheckLength:
+        addi $t0, $zero, 4
+        addi $t1, $zero, 9
+lengthLoop:
+        lb $t2, userInput($t3) # load the next character into t2
+        addi $t3, $t3, 1 # increment the string pointer
+        bne $t2, $zero, lengthLoop # check for the null character
+        subi $t3, $t3, 2
+       
+        bgt $t3, $t1, invalidWord
+        blt $t3, $t0, invalidWord
+        
+        sw $t3, wordLength
+        
+	add $t1, $zero, $zero
+	add $t3, $zero, $zero
+	add $t4, $zero, $zero
+		
+	lw $t5, wordLength($0)
+wordGridCheck: 
+	lb $t0, userInput($t1)
+        lb $t2, gridWord($t3)
+        beq $t1, $t5, gridChecked	###new
+        beq $t2, $zero, gridFail
+        beq $t0, $zero, gridChecked
+        bne $t2, $t0, moveGridArray
+        j moveUserArray
+moveGridArray:	
+	addi $t3, $t3, 1
+	j wordGridCheck
+moveUserArray:
+	addi $t1, $t1, 1
+	move $t3, $zero
+	j wordGridCheck
+gridFail:
+	lb $t4, keyLetter		###new
+	beq $t0, $t4, moveUserArray	###new
+	j invalidWord
+gridChecked:
+	add $t0, $zero, $zero
+    	add $t1, $zero, $zero
+    	add $t2, $zero, $zero
+    	add $t3, $zero, $zero
+    	add $t4, $zero, $zero
+    	add $t5, $zero, $zero  	
+	
 	lb $t0, keyLetter 	
 keyLoop:
         lb $t1, userInput($t2)
         addi $t2, $t2, 1
-        beq $t1, $t3, invalidWord	#null check
+        beq $t1, $zero, invalidWord	#null check
         beq $t1, $t0, keyDone		#key check
         j keyLoop
 keyDone:
 	add $t0, $zero, $zero
 	add $t1, $zero, $zero
 	add $t2, $zero, $zero
-	add $t3, $zero, $zero
+	add $t3, $zero, $zero						
 	
-CheckLength:
-        addi $t0, $t0, 4
-        addi $t1, $t1, 9
-lengthLoop:
-        lb $t2, userInput($t3) # load the next character into t2
-        addi $t3, $t3, 1 # increment the string pointer
-        bne $t4, $t2, lengthLoop # check for the null character
-        subi $t3, $t3, 1
-        bgt $t3, $t1, invalidWord
-        blt $t3, $t0, invalidWord
-        
-        sw $t3, wordLength
-	add $t1, $zero, $zero
-	add $t3, $zero, $zero
-	
-	add $t4, $zero, $zero
-wordGridCheck: 
-	lb $t0, userInput($t1)
-        lb $t2, gridWord($t3)
-	bgt $t0, 90, invalidWord
-	blt $t0, 33, invalidWord
-        beq $t2, $t4, gridFail
-        beq $t0, $t4, gridChecked
-        bne $t2, $t0, moveGridArray
-        beq $t2, $t0, moveUserArray
-moveGridArray:	
-	addi $t3, $t3, 1
-	j wordGridCheck
-moveUserArray:
-	addi $t1, $t1, 1
-	move $t3, $0
-	j wordGridCheck
-gridFail: 
-	j invalidWord
-gridChecked:			# word is made of letters from the grid
-	add $t0, $zero, $zero
-	add $t1, $zero, $zero
-	add $t2, $zero, $zero
-	add $t3, $zero, $zero
-	add $t4, $zero, $zero
-
 duplicateCheck:
-	# Doesnt need any arguments, just the user's word in some form (a variable 
-	# like myword that i used, or in an$a register)
+	lw $t0, userScore		#case that duplicateString is empty
+	beq $t0, 0, endDuplicateCheck
 	add $t1, $zero, $zero
-	lb $t2, newline
-	
-	li   $v0, 13       # system call for open file
-	la   $a0, duplicateFile   # board file name
-	li   $a1, 0        # Open for reading
-	li   $a2, 0
-	syscall            # open a file (file descriptor returned in $v0)
-	move $a0, $v0
-
-	li   $v0, 14       # system call for read from file
-	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 50000    # hardcoded buffer length
-	syscall            # read from file
-	
+	add $t3, $zero, $zero
+	lw $t4, wordLength
+	subi $t4, $t4, 1			#userInput length-1 for loop condition
+	lw $t5, duplicateStringEnd		#DS length
+	lb $t6, newSpace
 duplicateCheckLoop:
-	lb $t3, buffer($t4)
+	lb $t0, userInput($t1)			#load letters
+	lb $t2, duplicateString($t3)
 	
-	addi $t4, $t4, 1
-	beq $t3, $t1, duplicateCheckEnd		#branch if it's the end of the file
-	bne $t3, $t2, duplicateCheckLoop	#branch if it's not a newline
-	beq $t5, $zero, firstStart
-	addi $t5, $t6, 2
-firstStart:
-	subi $t6, $t4, 2	#$t5 to $t6 holds a word from the file
-	
-	addi $t6, $t6, 1
-	add $t7, $t5, $zero	#set $t7 equal to $t5, to use $t7 as $t5 without altering $t5
-	add $t8, $zero, $zero
-
-duplicateDo:
-	lb $s1, buffer($t7)	#letter in file word
-	lb $s2, userInput($t8)	#letter in user's word
-	bne $s1, $t2, noNTChange	
-	move $s1, $t1		#sets file word letter to null terminator incase its newline
-noNTChange:
-	bne $s1, $s2, duplicateNotWord
-	beq $s1, $t1, match	
-	addi $t7, $t7, 1
-	addi $t8, $t8, 1
-	j duplicateDo
-	
-match:	j invalidWord
-duplicateNotWord:
-	subi $t6, $t6, 1
-
-	bne $t5, $zero, duplicateCheckLoop
-	addi $t5, $t6, 2
-	j duplicateCheckLoop	
-duplicateCheckEnd:
-	li   $v0, 16      	# system call for close file
-	syscall            	# close file
-
+	addi $t1, $t1, 1			#increment couunters
+	addi $t3, $t3, 1
+	bne $t0, $t2, notMatch 			#if same letters
+	beq $t1, $t4, invalidWord
+	j duplicateCheckLoop
+notMatch:
+	bgt $t3, $t5, endDuplicateCheck		#case that last string in DS wasn't a match
+	add $t1, $zero, $zero			#set word counter back to zero for new check
+notMatchLoop:
+	lb $t2, duplicateString($t3)
+	addi $t3, $t3, 1
+	bne $t2, $t6, notMatchLoop
+	j duplicateCheckLoop
+endDuplicateCheck:																		
 	add $t0, $zero, $zero
 	add $t1, $zero, $zero
 	add $t2, $zero, $zero
@@ -788,19 +844,18 @@ duplicateCheckEnd:
 	add $t4, $zero, $zero
 	add $t5, $zero, $zero
 	add $t6, $zero, $zero
-	add $t7, $zero, $zero
-	add $t8, $zero, $zero
-	add $s1, $zero, $zero
-	add $s2, $zero, $zero
-							
+																																																																																																													
 checkWordDictionary:
+	li $v0, 4
+	la $a0, dictionaryCheck
+	syscall
+	
+	lw $a3, wordLength($0)
 	la $a0, userInput		#word
 	la $a1, alphabet
-	lw $a3, wordLength($0)
-
 	lb $t0, 0($a0)		
-	
-	lb $t1, 0($a1)		
+	lb $t1, 0($a1)	
+		
 	bne $t0, $t1, bWords
 ##########################################################		file	begin	
 	#open a file for writing
@@ -815,7 +870,7 @@ checkWordDictionary:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -878,7 +933,7 @@ bWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -940,7 +995,7 @@ cWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1002,7 +1057,7 @@ dWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1064,8 +1119,8 @@ eWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
-	syscall            # read from file
+	li   $a2, 200000       # hardcoded buffer length
+	syscall           # read from file
 	
 	add $t1, $zero, $zero
 	lb $t3, newline
@@ -1126,7 +1181,7 @@ fWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1188,7 +1243,7 @@ gWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1250,7 +1305,7 @@ hWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1312,7 +1367,7 @@ iWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1374,7 +1429,7 @@ jWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1436,7 +1491,7 @@ kWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1498,7 +1553,7 @@ lWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -1560,7 +1615,7 @@ mWords:
 	li   $v0, 14       # system call for read from file
 	move $a0, $s6      # file descriptor 
 	la   $a1, buffer   # address of buffer to which to read
-	li   $a2, 2000000       # hardcoded buffer length
+	li   $a2, 200000       # hardcoded buffer length
 	syscall            # read from file
 	
 	add $t1, $zero, $zero
@@ -2411,7 +2466,7 @@ Zend:			# Close the file
 ##########################################################		file	end		
 	 
 goBack:
-	jr $ra
+	
 endCheckWordDictionary:		
 	add $t0, $zero, $zero
 	beq $v1, $t0, invalidWord 
@@ -2467,3 +2522,5 @@ validWord:
 	add $s2, $zero, $zero
 	
 	j validUserInput	
+	
+
