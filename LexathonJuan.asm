@@ -13,12 +13,8 @@
 	
 	gameOver:		.asciiz "\n**************************************** GAME  OVER!! *************************************\n"
 	scoreMessage:		.asciiz "\nTotal score: "
-	missedWordsNumber:	.asciiz "Total number of missed words: "
-	possibleWordsNumber:	.asciiz "\nNumber of possible words: "
 	inputBad:		.asciiz "Invalid Entry, Please Try Again!\n"
 	playAgainMessage:	.asciiz "\nWould you like to play again? Type '1' for Yes or '0' for No (Exit Program): "
-	successMessage1: 	.asciiz "\nThe total number of correct words you enetered was: "
-	duplicateMessage:	.asciiz "\nDuplicate word entered!\n"
 	promptUser:		.asciiz "\nEnter your word or type '0' to Quit: "
 	keyError:		.asciiz "\nYou didn's use the key letter! Try again...\n"
 	gridPrint:		.asciiz "| "
@@ -33,11 +29,7 @@
 	startTime: .word 0
 	displayTime: .asciiz "Time remaining: "
 	timeRemaining: .word 0 #reset each game!!!
-	currentTime: .word 0
-	gameTime: .word 0
 	remainingTime: .word 60
-	youHaveTimeLeft: .asciiz "You have time left!"
-	timeHasRunOutMessage: .asciiz "You don't have time left!"
 	timeInvalidMessage: .asciiz "You ran out of time, give me your green card!"
 	
 	letterA: .byte 'a'
@@ -147,8 +139,7 @@ inputPrompt:
      	bne $v0, $t0, badInput
      	add $t0, $zero, $zero 
      	
-     	jal letterGen
-     	
+     	jal letterGen	
      	
 printGameGrid:
 	move $t5, $zero
@@ -354,22 +345,6 @@ timeValid:
 	add $a0, $0, $t0	#time left message
 	syscall
 	
-	#jal getTimeElapsed
-	#lw $t1, timeRemaining #Load the timeRemaining value onto $t1 
-	#sub $v0, $t1, $v0     # Subtract the timeRemaining from the difference between now and startTime
-	
-	#sw $v0, timeRemaining #Store the result of that calculation in timeRemaining
-	
-	#li $v0, 4
-	#la $a0, displayTime
-	#syscall
-	
-	#li $v0, 1
-	#la $a0, timeRemaining
-	#syscall
-	
-	###### Franco Input
-	
 	li $v0, 4 
 	la $a0, promptUser
 	syscall
@@ -383,17 +358,14 @@ timeValid:
  	 lb $t0, userInput($zero)
  	 lb $t1, zeroString($zero)		#this checks if the user entered 0 when asked for a word
  	 lb $t2, userInput($t3)			#ends the game
- 	 #bne $t2, $zero, validateUserInput
+ 	 
  	 beq $t0, $t1, gameEnd
  	 
 validateUserInput:
 	j Checks
 	
-     	##################### jump to the check file, to determine if the word is valid
-     	
      	##################### if the word is valid
      	
-	
 validUserInput:
 	jal writeToDuplicateString		#causes main not to work becuase of the path name of the duplicate file
      	jal incrementScore
@@ -403,11 +375,7 @@ invalidInput:
 	la $a0, inputBad
 	syscall
 	
-	j userInputFunction	#this sends you back to the prompt, where you can exit or start a new game
-
-	##################### -jump back up to the userInput function
-     	
-	##################### if the timer ends, the game has to end		
+	j userInputFunction	#this sends you back to the prompt, where you can exit or start a new game		
      	
 ###################################################  end of main  ##################################################### 
 storeStartTime:
@@ -456,27 +424,6 @@ gameEnd:
 	j startScreen
 
 ######### Timer functions ########
-
-getTimeCurrent:
-	li $v0, 30				#Syscall 30 to get systime in ms
-	syscall					#Now $a0 has lower 32 bits of system time
-	
-	li $t0, 1000			#This converts system time from milliseconds to seconds
-	div $a0, $t0			#Lo will now hold the seconds value
-	mflo $v0			#Return the seconds
-	jr $ra	
-	
-getTimeElapsed:					#parameter is $a1 (start)
-	lw $a1, currentTime
-	addi $sp, $sp, -8
-	sw $ra, ($sp)
-	sw $a1, 4($sp)
-	jal getTimeCurrent			#find currentTime, and put it on $v0
-	lw $t0, 4($sp)				#load startTime onto $t0
-	lw $ra, ($sp)
-	addi $sp, $sp, 8
-	sub $v0, $v0, $t0			#Calculate difference in time and return it on $v0
-	jr $ra
 	
 programEnd:
 	li $v0, 10
@@ -706,7 +653,7 @@ modValueTwentySix:
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 
-writeToDuplicateString:			##### new	for duplicates
+writeToDuplicateString:			
 	lw $t0, wordLength
 	li $t1, 0			#word index
 	lw $t2, duplicateStringEnd 	#duplicate string index	
@@ -723,7 +670,7 @@ writeToDuplicateString:			##### new	for duplicates
 	sw $t2, duplicateStringEnd	
 
 	jr $ra
-endWriteToDuplicateString:		##### new	for duplicates
+endWriteToDuplicateString:		
 
 incrementScore:
      lw $t0, userScore
