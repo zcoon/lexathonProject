@@ -27,7 +27,7 @@
 	gridWord: 		.space 8
 	keyLetter:		.space 1
 	userScore:		.word 0
-	userInput:		.space 9
+	userInput:		.space 20
 	zeroString:		.asciiz "0"
 	
 	displayTime: .asciiz "Time remaining: "
@@ -765,7 +765,42 @@ keyDone:
 	add $t1, $zero, $zero
 	add $t2, $zero, $zero
 	add $t3, $zero, $zero						
-																			
+	
+duplicateCheck:
+	lw $t0, userScore		#case that duplicateString is empty
+	beq $t0, 0, endDuplicateCheck
+	add $t1, $zero, $zero
+	add $t3, $zero, $zero
+	lw $t4, wordLength
+	subi $t4, $t4, 1			#userInput length-1 for loop condition
+	lw $t5, duplicateStringEnd		#DS length
+	lb $t6, newSpace
+duplicateCheckLoop:
+	lb $t0, userInput($t1)			#load letters
+	lb $t2, duplicateString($t3)
+	
+	addi $t1, $t1, 1			#increment couunters
+	addi $t3, $t3, 1
+	bne $t0, $t2, notMatch 			#if same letters
+	beq $t1, $t4, invalidWord
+	j duplicateCheckLoop
+notMatch:
+	bgt $t3, $t5, endDuplicateCheck		#case that last string in DS wasn't a match
+	add $t1, $zero, $zero			#set word counter back to zero for new check
+notMatchLoop:
+	lb $t2, duplicateString($t3)
+	addi $t3, $t3, 1
+	bne $t2, $t6, notMatchLoop
+	j duplicateCheckLoop
+endDuplicateCheck:																		
+	add $t0, $zero, $zero
+	add $t1, $zero, $zero
+	add $t2, $zero, $zero
+	add $t3, $zero, $zero
+	add $t4, $zero, $zero
+	add $t5, $zero, $zero
+	add $t6, $zero, $zero
+																																																																																																													
 checkWordDictionary:
 	li $v0, 4
 	la $a0, dictionaryCheck
