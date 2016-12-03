@@ -602,106 +602,158 @@ getLetter:
 	beq $a0, 26 modValueTwentySix #branch if $s0 == 26
 	jr $ra
 modValueOne:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterA  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwo:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterB  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueThree:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterC  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueFour:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterD  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueFive:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterE  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueSix:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterF  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueSeven:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterG  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueEight:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterH  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueNine:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterI  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterJ  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueEleven:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterK  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
-modValueTwelve:
+modValueTwelve:	
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterL  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueThirteen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterM  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueFourteen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterN  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueFifteen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterO  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueSixteen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterP  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueSeventeen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterQ  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueEighteen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterR  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueNineteen:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterS  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwenty:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterT  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwentyOne:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterU  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwentyTwo:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterV  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwentyThree:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterW  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwentyFour:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterX  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwentyFive:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterY  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 modValueTwentySix:
+	beq $s2, 1, letterGen
+	addi $s2, $s2, 1
 	la $a0, letterZ  # Get the address
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
