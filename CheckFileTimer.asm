@@ -31,14 +31,18 @@
 	zeroString:		.asciiz "0"
 	
 	startTime: .word 0
-	displayTime: .asciiz "Time remaining: "
+	printRemainingTime: .asciiz "Remaining time is: "
 	timeRemaining: .word 0 #reset each game!!!
 	currentTime: .word 0
 	gameTime: .word 0
 	remainingTime: .word 20
 	youHaveTimeLeft: .asciiz "You have time left!"
 	timeHasRunOutMessage: .asciiz "You don't have time left!"
-	holdTime: .word 2000000000
+	holdTime: .word 1
+	printHoldTime: .asciiz "Hold time is : "
+	prints5: .asciiz "$s5 Value is : "
+	prints6: .asciiz "$s6 Value is : "
+	
 	
 	letterA: .byte 'a'
 	letterB: .byte 'b'
@@ -107,6 +111,7 @@
 .text
 startScreen:	
 	sw $0, userScore
+	lw $s4, remainingTime  #remaining time = 60 to start
 
 	li $v0, 4
      	la $a0, gameObjective
@@ -359,36 +364,93 @@ userInputFunction:
 inputTimer:
        li $v0, 30
        syscall    #startTime/1000 = seconds   ---- )   subtraction register
+	                #now $a0 has lower 32 bits of system time
 
-     div $s5, $v0, 1000 
-     sw $s5, holdTime
+    li $t0, 1000            #convert system time from milliseconds to seconds
+    div $a0, $t0            #lo holds seconds
+    mflo $v0                #return seconds
+    move $s5, $v0
 
-	move $t1, $v1
+    # div $s5, $v0, 1000  # Get the time in seconds
+    
+    #Printing hold time
+    li $v0, 4
+    la $a0, printHoldTime
+    syscall
+    
+     sw $s5, holdTime 	 # Store the seconds value in holdTime
+     
+     li $v0, 1
+     move $a0, $s5 
+     syscall
+     
+     li $v0, 4
+     la $a0, newline
+     syscall
+
+     move $t1, $v1    # v1 always holds 1
 
      beq $t1, 1, setTimeSubReg    #temp reg need to pass 
      j Checks
      subTime:
-          lw $s4, remainingTime  #remaining time = 60
-          lw $s5, holdTime
-	div $s6, $s6, 1000
+          
+          lw $s5, holdTime        # load the holdTime 
+	 # div $s6, $s6, 1000      # Divide the last called system by 1000 to get it in seconds
 
-           sub $s3, $s6, $s5 #remaining time - substraction time = remaining time
+           sub $s3, $s6, $s5 #remaining time - substraction time = remaining time = $s3
 
            sub $t2, $s4, $s3    #branch if remaining time is less then 0
            sw $t2, remainingTime
            
            bltz $t2, gameEnd
+           
+            li $v0, 4
+     la $a0, printRemainingTime
+     syscall
 
-	li $v0, 1
-	lw $a0, remainingTime
-	syscall
+	   li $v0, 1
+	   lw $a0, remainingTime
+	   syscall
+	   
+	   li $v0, 4
+	   la $a0, newline
+	   syscall
+	   
+	    li $v0, 4
+     	la $a0, prints5
+     	syscall
+	   
+	   li $v0, 1
+	   move $a0, $s5
+	   syscall
+	   
+	    li $v0, 4
+	   la $a0, newline
+	   syscall
+	   
+	    li $v0, 4
+     la $a0, prints6
+     syscall
+	   
+	   li $v0, 1
+	   move $a0, $s6
+	   syscall
+	   
+	    li $v0, 4
+	   la $a0, newline
+	   syscall
+	   
 
            j Checks
            setTimeSubReg:
-               li $v0, 30
+               li $v0, 30	#Get the system time again and store in $v0
                syscall
+               
+               li $t0, 1000            #convert system time from milliseconds to seconds
+    	       div $a0, $t0            #lo holds seconds
+    		mflo $v0     
 
-               move $s6, $v0
+               move $s6, $v0    # Move the system time onto $s6
                j subTime
  	  	  	 
 validateUserInput:

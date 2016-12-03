@@ -27,7 +27,7 @@
 	gridWord: 		.space 8
 	keyLetter:		.space 1
 	userScore:		.word 0
-	userInput:		.space 20
+	userInput:		.space 9
 	zeroString:		.asciiz "0"
 	
 	displayTime: .asciiz "Time remaining: "
@@ -65,6 +65,8 @@
 	letterY: .byte 'y'
 	letterZ: .byte 'z'
 	
+	duplicateFile: .asciiz "duplicateFile.txt"
+	
 	wordLength:		.word 0
 	validWordMessage: 	.asciiz "Valid word"		
 	invalidWordMessage:	.asciiz "Invalid word"		
@@ -72,7 +74,7 @@
 	buffer: 		.space 2000000
 	fileword: .space 30
 	alphabet: .asciiz "abcdefghijklmnopqrstuvwxyz"
-	Afile: .asciiz "words/awords.txt"      # filename for input
+	Afile: .asciiz "words/awords1.txt"      # filename for input
 	Bfile: .asciiz "words/bwords.txt"      # filename for input
 	Cfile: .asciiz "words/cwords.txt"      # filename for input
 	Dfile: .asciiz "words/dwords.txt"      # filename for input
@@ -99,9 +101,6 @@
 	Yfile: .asciiz "words/ywords.txt"      # filename for input
 	Zfile: .asciiz "words/zwords.txt"      # filename for input
 	dictionaryCheck: .asciiz "Checking the dictionary!\n"
-	
-	duplicateString: 	.space 200
-	duplicateStringEnd:	.word 0
 .text
 startScreen:	
 	sw $0, userScore
@@ -307,33 +306,38 @@ printGameGridHalf:
 	li $t0, 60          # Put the value 60 in $t0
 	sw $t0, timeRemaining # The contents of $t0 is stored in t0, so timeRemaining = 60
 	
-clearDuplicateString:
-	li $t2, 0
-	lw $t0, duplicateStringEnd
-	lb $t1, clear
-clearLoop:	
-	sb $t1, duplicateString($t2)
-	addi $t2, $t2, 1
-	bgt $t2, $t0, endClearDuplicateString 
-	j clearLoop
-endClearDuplicateString:
-	sw $0, duplicateStringEnd
+cleanDuplicateFile:
+	li $v0, 13
+    	la $a0, duplicateFile
+   	li $a1, 1
+   	li $a2, 0
+   	syscall  # File descriptor gets returned in $v0
+
+    	move $a0, $v0  # Syscall 15 requires file descriptor in $a0
+    	li $v0, 15
+    	la $a1, clear
+    	li $a2, 0  
+    	syscall
+
+    	li $v0, 16  # $a0 already has the file descriptor
+    	syscall
+endClean:
 	
 userInputFunction:
 
-	#jal getTimeElapsed
-	#lw $t1, timeRemaining #Load the timeRemaining value onto $t1 
-	#sub $v0, $t1, $v0     # Subtract the timeRemaining from the difference between now and startTime
+	jal getTimeElapsed
+	lw $t1, timeRemaining #Load the timeRemaining value onto $t1 
+	sub $v0, $t1, $v0     # Subtract the timeRemaining from the difference between now and startTime
 	
-	#sw $v0, timeRemaining #Store the result of that calculation in timeRemaining
+	sw $v0, timeRemaining #Store the result of that calculation in timeRemaining
 	
-	#li $v0, 4
-	#la $a0, displayTime
-	#syscall
+	li $v0, 4
+	la $a0, displayTime
+	syscall
 	
-	#li $v0, 1
-	#la $a0, timeRemaining
-	#syscall
+	li $v0, 1
+	la $a0, timeRemaining
+	syscall
 	
 	###### Franco Input
 	
@@ -362,7 +366,7 @@ validateUserInput:
      	
 	
 validUserInput:
-	jal writeToDuplicateString		#causes main not to work becuase of the path name of the duplicate file
+	jal writeWordToDuplicateFile		#causes main not to work becuase of the path name of the duplicate file
      	jal incrementScore
      	j userInputFunction
 invalidInput:
@@ -662,24 +666,48 @@ modValueTwentySix:
 	lb $v1, ($a0)  # Get the value at that address
 	jr $ra
 
-writeToDuplicateString:			##### new	for duplicates
-	lw $t0, wordLength
-	li $t1, 0			#word index
-	lw $t2, duplicateStringEnd 	#duplicate string index	
-   writeLoop:
- 	lb $t3, userInput($t1)	
-	sb $t3, duplicateString($t2)
-	addi $t1, $t1, 1
-	addi $t2, $t2, 1
-	bne $t1, $t0, writeLoop
-   doneWrite:	
-	lb $t3, newSpace
-	sb $t3, duplicateString($t2)
-	addi $t2, $t2, 1
-	sw $t2, duplicateStringEnd	
+writeWordToDuplicateFile:
+do:    	lb $t2, userInput($t0)
+	beq $t2, $zero, endWhile     #calculates the length of myword and stores it in $t0	
+    	addi $t0, $t0, 1
+    	j do
+endWhile:		
 
-	jr $ra
-endWriteToDuplicateString:		##### new	for duplicates
+	li $v0, 13
+    	la $a0, duplicateFile	#open file for write/append
+   	li $a1, 9
+   	li $a2, 0
+   	syscall  # File descriptor gets returned in $v0
+
+    	move $a0, $v0  # Syscall 15 requires file descriptor in $a0
+    	li $v0, 15
+    	la $a1, userInput
+    	
+    	bne $t0, 4, check5
+    	li $a2, 4  
+    	j doneCheck
+check5: bne $t0, 5, check6
+    	li $a2, 5  
+    	j doneCheck
+check6: bne $t0, 6, check7	#These checks are necessary becuase writing to the file 
+    	li $a2, 6  		#requires the hardcoded length of the word to be written
+    	j doneCheck		#so we need to hardcode all 6 options
+check7: bne $t0, 7, check8
+    	li $a2, 7  
+    	j doneCheck
+check8: bne $t0, 8, check9
+    	li $a2, 8  
+    	j doneCheck
+check9: 
+    	li $a2, 9  
+    	
+doneCheck:
+    	syscall			#word is appened to the file
+    	
+    	li $v0, 16  # $a0 already has the file descriptor. Closes the file 
+    	
+    	jr $ra	
+endWriteWordToDuplicateFile:
 
 incrementScore:
      lw $t0, userScore
@@ -765,42 +793,7 @@ keyDone:
 	add $t1, $zero, $zero
 	add $t2, $zero, $zero
 	add $t3, $zero, $zero						
-	
-duplicateCheck:
-	lw $t0, userScore		#case that duplicateString is empty
-	beq $t0, 0, endDuplicateCheck
-	add $t1, $zero, $zero
-	add $t3, $zero, $zero
-	lw $t4, wordLength
-	subi $t4, $t4, 1			#userInput length-1 for loop condition
-	lw $t5, duplicateStringEnd		#DS length
-	lb $t6, newSpace
-duplicateCheckLoop:
-	lb $t0, userInput($t1)			#load letters
-	lb $t2, duplicateString($t3)
-	
-	addi $t1, $t1, 1			#increment couunters
-	addi $t3, $t3, 1
-	bne $t0, $t2, notMatch 			#if same letters
-	beq $t1, $t4, invalidWord
-	j duplicateCheckLoop
-notMatch:
-	bgt $t3, $t5, endDuplicateCheck		#case that last string in DS wasn't a match
-	add $t1, $zero, $zero			#set word counter back to zero for new check
-notMatchLoop:
-	lb $t2, duplicateString($t3)
-	addi $t3, $t3, 1
-	bne $t2, $t6, notMatchLoop
-	j duplicateCheckLoop
-endDuplicateCheck:																		
-	add $t0, $zero, $zero
-	add $t1, $zero, $zero
-	add $t2, $zero, $zero
-	add $t3, $zero, $zero
-	add $t4, $zero, $zero
-	add $t5, $zero, $zero
-	add $t6, $zero, $zero
-																																																																																																													
+																			
 checkWordDictionary:
 	li $v0, 4
 	la $a0, dictionaryCheck
